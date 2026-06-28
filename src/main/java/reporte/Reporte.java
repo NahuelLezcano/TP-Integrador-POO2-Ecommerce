@@ -1,7 +1,7 @@
 package reporte;
 
 //necesito importar Item para que funcione
-import java.util.List;
+import java.util.*;
 
 public abstract class Reporte {
 	
@@ -11,7 +11,6 @@ public abstract class Reporte {
 		reporte.append(info);
 	}
 
-	//Para el test
 	public String devolverReporte() {
 		return this.reporte.toString();
 	}
