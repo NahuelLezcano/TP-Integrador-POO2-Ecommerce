@@ -1,58 +1,98 @@
 package catalogo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Producto implements Item {
-
-    private int sku;
+	
+	private String SKU;
     private String nombre;
-    private int peso;
     private String marca;
     private String categoria;
-    private double precioBase;
-    private final Map<String, Object> atributosDinamicos = new HashMap<>();
-
-
-    public Producto(String categoria, String marca, String nombre, int peso, double precioBase, int sku) {
-        this.categoria = categoria;
-        this.marca = marca;
+    private int peso;
+    private int precioBase;
+    private List<String> atributosExtra = new ArrayList<>();
+    private String descripcion;
+    
+    public Producto(String sku, String nombre, String marca, String categoria, int peso, int precioBase, String descripcion) {
+        this.SKU = sku;
         this.nombre = nombre;
+        this.marca = marca;
+        this.categoria = categoria;
         this.peso = peso;
         this.precioBase = precioBase;
-        this.sku = sku;
+        this.descripcion = descripcion;
     }
-
-    public void set(String clave, Object valor) {
-        this.atributosDinamicos.put(clave, valor);
+    
+    public String getSKU() { 
+    	return SKU; 
     }
-
+    
     @Override
-    public double precioFinal() {
-        //TODO falta completar
+    public String getNombre() { 
+    	return nombre; 
     }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
+    
     public String getMarca() {
-        return marca;
+		return marca;
+	}
+    
+    public String getCategoria() {
+    	return categoria;
     }
-
-    public String getNombre() {
-        return nombre;
-    }
-
+    
     public int getPeso() {
-        return peso;
+    	return peso;
+    }
+    
+    @Override
+    public int getPrecioBase() {
+    	return precioBase;
+    }
+    
+    @Override
+    public String getDescripcion() {
+		return descripcion;
+	}
+    
+    /* ejemplo de como pueden escribirse:
+   	 * "color=rojo", "ancho=20"...
+   	 */
+    public void agregarAtributoExtra(String atributo) {
+    	atributosExtra.add(atributo);
     }
 
-    public double getPrecioBase() {
-        return precioBase;
+    public List<String> getAtributosExtras() {
+        return atributosExtra;
     }
-
-    public int getSku() {
-        return sku;
+    
+    @Override
+    public boolean validar() {
+        return validarObligatorios() && validarExtras();
     }
+    
+    //¿Qué se considera obligatorio?
+	public boolean validarObligatorios() {
+		return  (
+				!getSKU().isEmpty() &&
+				!getNombre().isEmpty() &&
+				!getMarca().isEmpty() &&
+				!getCategoria().isEmpty() &&
+				!getDescripcion().isEmpty() &&
+				getPeso() >= 0 &&
+				getPrecioBase() >= 0
+				);
+	}
+	
+	public boolean validarExtras() {
+		return  getAtributosExtras().isEmpty() || 
+				getAtributosExtras().size() > 1;
+	}
+	
+	@Override
+	public int getPrecioFinal() {
+		return getPrecioBase();
+	}
+    
+	
 }

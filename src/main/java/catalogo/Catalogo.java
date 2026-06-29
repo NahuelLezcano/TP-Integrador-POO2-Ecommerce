@@ -1,18 +1,30 @@
 package catalogo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Catalogo {
-
-    private Tienda tienda;
-    private final List<Item> elementos = new ArrayList<>();
-
-    public void agregarElemento(Item item) {
-        elementos.add(item);
+	
+    private List<Item> items = new ArrayList<>();
+    
+    public Catalogo(List<Item> items) {
+    	this.items = items;
     }
 
-    public void quitarElemento(Item item) {
-        elementos.remove(item);
+    public void agregarItem(Item item) {
+        items.add(item);
     }
+
+    public void removerItem(Item item) {
+        items.remove(item);
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+    
+    public int cantidadDeItems() {
+    	return getItems().size();
+    }
+    
 }
+
