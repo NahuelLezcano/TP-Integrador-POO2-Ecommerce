@@ -1,7 +1,7 @@
 package reporte;
 
-//necesito importar Item para que funcione
 import java.util.*;
+import catalogo.*;
 
 public class ReporteHTML extends Reporte {
 	
