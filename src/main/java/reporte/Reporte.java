@@ -1,6 +1,7 @@
 package reporte;
 
 //necesito importar Item para que funcione
+import catalogo.Item;
 import java.util.*;
 
 public abstract class Reporte {
