@@ -14,13 +14,14 @@ public class Producto implements Item {
     private List<String> atributosExtra = new ArrayList<>();
     private String descripcion;
     
-    public Producto(String sku, String nombre, String marca, int peso, String categoria, int precioBase, String descripcion) {
+    public Producto(String sku, String nombre, String marca, String categoria, int peso, int precioBase, String descripcion) {
         this.SKU = sku;
         this.nombre = nombre;
         this.marca = marca;
         this.categoria = categoria;
         this.peso = peso;
         this.precioBase = precioBase;
+        this.descripcion = descripcion;
     }
     
     public String getSKU() { 
@@ -93,5 +94,5 @@ public class Producto implements Item {
 		return getPrecioBase();
 	}
     
-    
+	
 }
