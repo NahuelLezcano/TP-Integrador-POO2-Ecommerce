@@ -21,6 +21,7 @@ public class Borrador extends Estado {
     @Override
     public String confirmar() {
         pedido.cambiarEstado(new Pago(pedido));
+        //TODO decrementar el Stock
         return "El borrador del pedido se a confirmado";
     }
 
