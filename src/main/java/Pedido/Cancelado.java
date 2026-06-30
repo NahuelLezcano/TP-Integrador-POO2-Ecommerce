@@ -10,21 +10,21 @@ public class Cancelado extends Estado {
 
     @Override
     public void agregarItem(Item item) {
-        //a completar
+        throw new OperacionInvalidaException("No se pueden agregar items, el pedido está cancelado.");
     }
 
     @Override
     public void removerItem(Item item) {
-        //a completar
+        throw new OperacionInvalidaException("No se pueden remover items, el pedido está cancelado.");
     }
 
     @Override
     public String confirmar() {
-        return "A completar";
+        throw new OperacionInvalidaException("El pedido fue cancelado. Estado terminal.");
     }
 
     @Override
     public String cancelar() {
-        return "A completar";
+        throw new OperacionInvalidaException("El pedido fue cancelado. Estado terminal.");
     }
 }
