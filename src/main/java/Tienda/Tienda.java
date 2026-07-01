@@ -31,6 +31,7 @@ public class Tienda {
 
 	public void registrarVenta(Item item, int cantidad, int precio, LocalDate fecha) {
 		deposito.removerDelStock(item, cantidad);
+		catalogo.removerItem(item);
 		ventas.add(new Venta(item, cantidad, precio, fecha));
 	}
 
