@@ -24,6 +24,17 @@ public class Producto implements Item {
         this.descripcion = descripcion;
     }
     
+    public Producto(String sku, String nombre, String marca, String categoria, int peso, int precioBase, String descripcion, List<String> atributosExtra) {
+        this.SKU = sku;
+        this.nombre = nombre;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.peso = peso;
+        this.precioBase = precioBase;
+        this.descripcion = descripcion;
+        this.atributosExtra = atributosExtra;
+    }
+    
     public String getSKU() { 
     	return SKU; 
     }

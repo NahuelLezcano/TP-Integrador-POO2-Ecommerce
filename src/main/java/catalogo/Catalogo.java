@@ -26,5 +26,9 @@ public class Catalogo {
     	return getItems().size();
     }
     
+    public boolean contiene(Item item) {
+    	return getItems().contains(item);
+    }
+    
 }
 

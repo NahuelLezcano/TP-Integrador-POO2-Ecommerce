@@ -5,6 +5,10 @@ import catalogo.*;
 
 public abstract class Reporte {
 	
+	/*faltan cosas para poder hacer el reporte, como el promedio del producto mas vendido o
+	 * esta es una base de donde partir.
+	 */
+	
 	protected StringBuilder reporte = new StringBuilder();
 
 	public void escribir(String info) {
