@@ -34,7 +34,7 @@ public class Paquete implements Item  {
 		return items;
 	}
 	
-	public void agregarItems(Item item) {
+	public void agregarItem(Item item) {
 		items.add(item);
 	}
 	

@@ -169,7 +169,7 @@ class CatalogoTest {
 		assertEquals(List.of(celular, auriculares), celularNuevo.getItems());
 		assertEquals(List.of(celularNuevo, memoria), celularExpandido.getItems());
 
-		celularExpandido.agregarItems(cargador);
+		celularExpandido.agregarItem(cargador);
 		assertEquals(List.of(celularNuevo, memoria, cargador), celularExpandido.getItems());
 
 		celularNuevo.removerItem(auriculares);

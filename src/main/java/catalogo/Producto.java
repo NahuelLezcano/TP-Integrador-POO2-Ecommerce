@@ -11,8 +11,8 @@ public class Producto implements Item {
     private String categoria;
     private int peso;
     private int precioBase;
-    private List<String> atributosExtra = new ArrayList<>();
     private String descripcion;
+    private List<String> atributosExtra = new ArrayList<>();
     
     public Producto(String sku, String nombre, String marca, String categoria, int peso, int precioBase, String descripcion) {
         this.SKU = sku;
