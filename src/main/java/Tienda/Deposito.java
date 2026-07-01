@@ -15,5 +15,17 @@ public class Deposito {
         stock.put(item, cantidad);
     }
 
+    public void removerDelStock(Item item, int cantidad) {
+        int actual = stock.getOrDefault(item, 0);
+        if (actual < cantidad) {
+            throw new IllegalArgumentException("Stock insuficiente");
+        }
+        stock.put(item, actual - cantidad);
+    }
+
+    public int cantidadEnStock(Item item) {
+        return stock.getOrDefault(item, 0);
+    }
+
     //TODO agregar más métodos
 }
