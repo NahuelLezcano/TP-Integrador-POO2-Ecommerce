@@ -40,10 +40,10 @@ class ReporteTest {
 		catalogo = new Catalogo(new ArrayList<>(List.of(celularNuevo)), deposito);
 
 		tienda = new Tienda(deposito, catalogo);
-		tienda.registrarVenta(celular, 1, 100, LocalDate.now());
-		tienda.registrarVenta(celular, 1, 200, LocalDate.now());
-		tienda.registrarVenta(celular, 1, 300, LocalDate.now());
-		tienda.registrarVenta(auriculares, 1, 400, LocalDate.now());
+		tienda.registrarVenta(celular, 1, LocalDate.now());
+		tienda.registrarVenta(celular, 1, LocalDate.now());
+		tienda.registrarVenta(celular, 1, LocalDate.now());
+		tienda.registrarVenta(auriculares, 1, LocalDate.now());
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ class ReporteTest {
 		assertEquals(celular, masVendidos.get(0));
 		assertEquals(auriculares, masVendidos.get(1));
 		
-		assertEquals(200.0, tienda.precioPromedioCobrado(celular));
+		assertEquals(127000.0, tienda.precioPromedioCobrado(celular));
 
 	}
 	
@@ -70,7 +70,7 @@ class ReporteTest {
 		assertTrue(textoTXT.startsWith("Reporte:"));
 		assertTrue(textoTXT.contains("Item: Samsung Galaxy A20"));
 		assertTrue(textoTXT.contains("Vendidos: 3"));
-		assertTrue(textoTXT.contains("Precio promedio: 200.0"));
+		assertTrue(textoTXT.contains("Precio promedio: 127000.0"));
 	}
 
 	@Test
@@ -80,8 +80,8 @@ class ReporteTest {
 		String textoCSV = reporteCSV.devolverReporte();
 
 		assertTrue(textoCSV.startsWith("Nombre,Vendidos,PrecioPromedio"));
-		assertTrue(textoCSV.contains("Samsung Galaxy A20,3,200.0"));
-		assertTrue(textoCSV.contains("Galaxy Buds 4 Pro,1,400.0"));
+		assertTrue(textoCSV.contains("Samsung Galaxy A20,3,127000.0"));
+		assertTrue(textoCSV.contains("Galaxy Buds 4 Pro,1,620000.0"));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ class ReporteTest {
 		assertTrue(textoHTML.contains("<th>Nombre</th><th>Vendidos</th><th>Precio Promedio</th>"));
 		assertTrue(textoHTML.contains("<td>Samsung Galaxy A20</td>"));
 		assertTrue(textoHTML.contains("<td>3</td>"));
-		assertTrue(textoHTML.contains("<td>200.0</td>"));
+		assertTrue(textoHTML.contains("<td>127000.0</td>"));
 	}
 
 }

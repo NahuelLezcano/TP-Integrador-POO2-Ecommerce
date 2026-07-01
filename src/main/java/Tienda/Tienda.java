@@ -28,11 +28,17 @@ public class Tienda {
 	public void setCatalogo(Catalogo catalogo) {
 		this.catalogo = catalogo;
 	}
+	
+	public void setDeposito(Deposito deposito) {
+		this.deposito = deposito;
+	}
 
-	public void registrarVenta(Item item, int cantidad, int precio, LocalDate fecha) {
-		deposito.removerDelStock(item, cantidad);
-		catalogo.removerItem(item);
-		ventas.add(new Venta(item, cantidad, precio, fecha));
+	public void registrarVenta(Item item, int cantidad, LocalDate fecha) {
+		deposito.removerCantidadDelStock(item, cantidad);
+		
+		if (deposito.cantidadEnStock(item) == 0) {catalogo.removerItem(item);}
+		
+		ventas.add(new Venta(item, cantidad, item.getPrecioFinal(), fecha));
 	}
 
 	public int cantidadEnStock(Item item) {
