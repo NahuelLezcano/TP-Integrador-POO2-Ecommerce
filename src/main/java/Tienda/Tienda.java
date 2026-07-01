@@ -12,8 +12,9 @@ public class Tienda {
 	private Catalogo catalogo;
 	private List<Venta> ventas = new ArrayList<Venta>();
 
-	public Tienda(Deposito deposito) {
+	public Tienda(Deposito deposito, Catalogo catalogo) {
 		this.deposito = deposito;
+		this.catalogo = catalogo;
 	}
 
 	public Deposito getDeposito() {

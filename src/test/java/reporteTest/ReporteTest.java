@@ -39,8 +39,7 @@ class ReporteTest {
 
 		catalogo = new Catalogo(new ArrayList<>(List.of(celularNuevo)), deposito);
 
-		tienda = new Tienda(deposito);
-		tienda.setCatalogo(catalogo);
+		tienda = new Tienda(deposito, catalogo);
 		tienda.registrarVenta(celular, 1, 100, LocalDate.now());
 		tienda.registrarVenta(celular, 1, 200, LocalDate.now());
 		tienda.registrarVenta(celular, 1, 300, LocalDate.now());
