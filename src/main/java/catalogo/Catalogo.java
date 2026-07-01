@@ -2,16 +2,24 @@ package catalogo;
 
 import java.util.*;
 
+import Tienda.Deposito;
+
 public class Catalogo {
 	
     private List<Item> items = new ArrayList<>();
+    private Deposito deposito;
     
-    public Catalogo(List<Item> items) {
+    public Catalogo(List<Item> items, Deposito deposito) {
     	this.items = items;
+    	this.deposito = deposito;
     }
 
-    public void agregarItem(Item item) {
-        items.add(item);
+    public void agregarItemSiHayStock(Item item) {
+    	if (deposito.cantidadEnStock(item) > 0) {
+    		items.add(item);
+    	} else {
+    		throw new IllegalArgumentException("No se puede agregar al catálogo porque el item no está en stock");
+    	}
     }
 
     public void removerItem(Item item) {

@@ -97,7 +97,7 @@ public class Producto implements Item {
 	
 	public boolean validarExtras() {
 		return  getAtributosExtras().isEmpty() || 
-				getAtributosExtras().size() > 1;
+				getAtributosExtras().size() >= 1;
 	}
 	
 	@Override
