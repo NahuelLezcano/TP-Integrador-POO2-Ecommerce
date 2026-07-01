@@ -1,10 +1,16 @@
 package reporte;
 
 import java.util.*;
+
+import Tienda.Tienda;
 import catalogo.*;
 
 public class ReporteCSV extends Reporte {
 	
+  public ReporteCSV(Tienda tienda) {
+		super(tienda);
+	}
+
   @Override
   public void generarReporte(List<Item> items) {
   	escribir(cabecera());
@@ -16,8 +22,8 @@ public class ReporteCSV extends Reporte {
   @Override
   public String escribirFila(Item item) {
   	return item.getNombre() + "," +
-  			item.getCantidadVendida() + "," +
-  			item.getPrecioPromedioCobrado() + "\n";
+  			tienda.cantidadVendida(item) + "," +
+  			tienda.precioPromedioCobrado(item) + "\n";
   }
   
   @Override

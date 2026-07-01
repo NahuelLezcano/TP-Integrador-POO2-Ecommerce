@@ -1,10 +1,16 @@
 package reporte;
 
 import java.util.*;
+
+import Tienda.Tienda;
 import catalogo.*;
 
 public class ReporteTxt extends Reporte {
   
+  public ReporteTxt(Tienda tienda) {
+		super(tienda);
+	}
+
   @Override
   public void generarReporte(List<Item> items) {
   	escribir(cabecera());
@@ -16,8 +22,8 @@ public class ReporteTxt extends Reporte {
   @Override
   public String escribirFila(Item item) {
   	return "Item: " + item.getNombre() + 
-      		" | Vendidos: " + item.getCantidadVendida() + 
-      		" | Precio promedio: " + item.getPrecioPromedioCobrado() + 
+      		" | Vendidos: " + tienda.cantidadVendida(item) + 
+      		" | Precio promedio: " + tienda.precioPromedioCobrado(item) + 
       		"\n";
   }
 

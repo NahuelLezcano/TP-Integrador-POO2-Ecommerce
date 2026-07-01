@@ -1,15 +1,18 @@
 package reporte;
 
 import java.util.*;
+
+import Tienda.*;
 import catalogo.*;
 
 public abstract class Reporte {
 	
-	/*faltan cosas para poder hacer el reporte, como el promedio del producto mas vendido o
-	 * esta es una base de donde partir.
-	 */
-	
+	protected Tienda tienda;
 	protected StringBuilder reporte = new StringBuilder();
+	
+	public Reporte(Tienda tienda) {
+		this.tienda = tienda;
+	}
 
 	public void escribir(String info) {
 		reporte.append(info);
