@@ -23,7 +23,7 @@ class CatalogoTest {
 
 		celular = new Producto("AR528", "Samsung Galaxy A20", "Samsung", "Tecnología", 169, 127000, "Celular duradero");
 
-		auriculares = new Producto("BR111", "Galaxy Buds 4 Pro", "Samsung", "Accesorio", 10, 620000, "Sonido cálido");
+		auriculares = new Producto("BR111", "Galaxy Buds 4 Pro", "Samsung", "Tecnología", 10, 620000, "Sonido cálido");
 
 		memoria = new Producto("NY871", "Msd Kingston Canvas Select Plus", "Kingston", "Memoria", 1, 33500,
 				"Velocidad de lectura de hasta 100 MB/s");
@@ -74,5 +74,103 @@ class CatalogoTest {
 		assertTrue(catalogo.contiene(funda));
 
 	}
+	
+	@Test
+	void skuNombreYMarcaDeProducto() {
+		assertEquals("AR528", celular.getSKU());
+		assertEquals("BR111", auriculares.getSKU());
+		
+		assertEquals("Samsung Galaxy A20", celular.getNombre());
+		assertEquals("Galaxy Buds 4 Pro", auriculares.getNombre());
+		
+		assertEquals("Samsung", celular.getMarca());
+		assertEquals("Samsung", auriculares.getMarca());
+	}
+	
+	@Test
+	void pesoYDescripcionDeProducto() {
+		assertEquals(169, celular.getPeso());
+		assertEquals(10, auriculares.getPeso());
+		
+		assertEquals("Celular duradero", celular.getDescripcion());
+		assertEquals("Sonido cálido", auriculares.getDescripcion());
+	}
+	
+	@Test
+	void precioDeProductoYCategoria() {
+		assertEquals(127000, celular.getPrecioBase());
+		assertEquals(620000, auriculares.getPrecioBase());
+		
+		assertEquals(127000, celular.getPrecioFinal());
+		assertEquals(620000, auriculares.getPrecioFinal());
+		
+		assertEquals("Tecnología", celular.getCategoria());
+		assertEquals("Tecnología", auriculares.getCategoria());
+	}
+	
+	@Test
+	void atributosExtrasDeProducto() {
+		
+		assertEquals(List.of(), celular.getAtributosExtras());
+		
+		celular.agregarAtributoExtra("Color=Naranja");
+		
+		assertEquals(List.of("Color=Naranja"), celular.getAtributosExtras());
+	}
+	
+	@Test
+	void validarProducto() {
+		assertTrue(cargador.validarObligatorios());
+		assertTrue(cargador.validarExtras());
+		assertTrue(cargador.validar());
+	}
+	
+	@Test
+	void nombreYDescripcionDePaquete() {
+		
+		assertEquals("Pack celular nuevo", celularNuevo.getNombre());
+		assertEquals("Incluye un celular y auriculares", celularNuevo.getDescripcion());
+	}
+	
+	@Test
+	void descuentoDePaquete() {
+
+		assertEquals(10, celularNuevo.getDescuento());
+		assertEquals(20, celularExpandido.getDescuento());
+	}
+	
+	@Test
+	void itemsDePaquetes() {
+		
+		assertEquals(List.of(celular, auriculares), celularNuevo.getItems());
+		assertEquals(List.of(celularNuevo, memoria), celularExpandido.getItems());
+		
+		celularExpandido.agregarItems(cargador);
+		assertEquals(List.of(celularNuevo, memoria, cargador), celularExpandido.getItems());
+		
+		celularNuevo.removerItem(auriculares);
+		assertEquals(List.of(celular), celularNuevo.getItems());
+		
+	}
+	
+	@Test
+	void precioDePaquete() {
+		
+		assertTrue(celularNuevo.itemsSonValidos());
+		assertTrue(celularNuevo.tieneItems());
+		assertTrue(celularNuevo.validar());
+		assertEquals(747000, celularNuevo.getPrecioBase());
+		assertEquals(672300, celularNuevo.getPrecioFinal());
+		
+		assertTrue(celularExpandido.itemsSonValidos());
+		assertTrue(celularExpandido.tieneItems());
+		assertTrue(celularExpandido.validar());
+		assertEquals(705800, celularExpandido.getPrecioBase());
+		assertEquals(564640, celularExpandido.getPrecioFinal());
+	}
+	
+	
+	
+	
 
 }
