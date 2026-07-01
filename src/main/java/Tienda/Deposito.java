@@ -26,6 +26,5 @@ public class Deposito {
     public int cantidadEnStock(Item item) {
         return stock.getOrDefault(item, 0);
     }
-
-    //TODO agregar más métodos
+    
 }
