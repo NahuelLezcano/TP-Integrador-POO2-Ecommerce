@@ -9,12 +9,12 @@ public class Entregado extends Estado {
     }
 
     @Override
-    public void agregarItem(Item item) {
+    public void agregarItem(Item item, Integer cantidad) {
         throw new OperacionInvalidaException("No se pueden agregar items, el pedido ha sido entregado.");
     }
 
     @Override
-    public void removerItem(Item item) {
+    public void removerItem(Item item, Integer cantidad) {
         throw new OperacionInvalidaException("No se pueden remover items, el pedido ha sido entregado.");
     }
 

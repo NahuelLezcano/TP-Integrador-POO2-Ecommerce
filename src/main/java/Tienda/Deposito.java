@@ -14,7 +14,7 @@ public class Deposito {
 	}
 
 	public void agregarItemAlStock(Item item, Integer cantidad) {
-		stock.put(item, cantidad);
+		stock.merge(item, cantidad, Integer::sum); // Si la clave no existe, añade el valor. Si ya existe, aplica la función de suma.
 	}
 
 	public void removerCantidadDelStock(Item item, int cantidad) {
