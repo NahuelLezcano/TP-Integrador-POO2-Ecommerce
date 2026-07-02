@@ -7,13 +7,13 @@ import catalogo.*;
 public class Venta {
 	private Item item;
 	private int cantidad;
-	private int precio;
+	private int precioCobrado;
 	private LocalDate fecha;
 	
-	public Venta(Item item, int cantidad, int precio, LocalDate fecha) {
+	public Venta(Item item, int cantidad, int precioCobrado, LocalDate fecha) {
 		this.item = item;
 		this.cantidad = cantidad;
-		this.precio = precio;
+		this.precioCobrado = precioCobrado;
 		this.fecha = fecha;
 	}
 
@@ -26,7 +26,7 @@ public class Venta {
 	}
 
 	public int getPrecio() {
-		return precio;
+		return precioCobrado;
 	}
 
 	public LocalDate getFecha() {
