@@ -9,12 +9,12 @@ public class Enviado extends Estado {
     }
 
     @Override
-    public void agregarItem(Item item) {
+    public void agregarItem(Item item, Integer cantidad) {
         throw new OperacionInvalidaException("El pedido está en camino, no se pueden agregar más items");
     }
 
     @Override
-    public void removerItem(Item item) {
+    public void removerItem(Item item, Integer cantidad) {
         throw new OperacionInvalidaException("El pedido está en camino, no se pueden remover más items");
     }
 

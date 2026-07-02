@@ -2,12 +2,12 @@ package Pedido;
 
 import Tienda.*;
 import catalogo.Item;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pedido {
 
-    private List<Item> items = new ArrayList<>();
+    private Map<Item, Integer> items = new HashMap<>();
     private Tienda tienda;
     private Estado estadoDelPedido = new Borrador(this);
 
@@ -16,12 +16,12 @@ public class Pedido {
     }
 
     //Métodos
-    public void agregarItem(Item item) {
-        estadoDelPedido.agregarItem(item);
+    public void agregarItem(Item item, Integer cantidad) {
+        estadoDelPedido.agregarItem(item, cantidad);
     }
 
-    public void removerItem(Item item) {
-        estadoDelPedido.removerItem(item);
+    public void removerItem(Item item, Integer cantidad) {
+        estadoDelPedido.removerItem(item, cantidad);
     }
 
     public String confirmar() {
@@ -40,16 +40,26 @@ public class Pedido {
         return tienda;
     }
 
-    public List<Item> getItems() {
+    public Map<Item, Integer> getItems() {
         return items;
     }
 
-    // Estos metodos solo deberían ser usado por el estado Borrador
-    protected void agregarItemAlPedido(Item item) {
-        items.add(item);
+    // Estos métodos solo deberían ser usado por el estado Borrador
+    protected void agregarItemAlPedido(Item item, Integer cantidad) {
+        items.merge(item, cantidad, Integer::sum);
     }
 
-    protected void quitarItemAlPedido(Item item) {
-        items.remove(item);
+    protected void quitarItemAlPedido(Item item, Integer cantidad) {
+        // Validar entrada inválida
+        if (cantidad <= 0) return;
+
+        items.computeIfPresent(item, (key, stockActual) -> {
+            if (cantidad >= stockActual) {
+                // Caso borde: Se pide más o igual de lo que hay -> Eliminamos del mapa (retorna null)
+                return null;
+            }
+            // Caso normal: Queda stock positivo restante
+            return stockActual - cantidad;
+        });
     }
 }
