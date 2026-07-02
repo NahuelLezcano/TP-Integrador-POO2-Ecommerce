@@ -1,6 +1,10 @@
 package Pedido;
 
+import Tienda.Tienda;
 import catalogo.Item;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class Borrador extends Estado {
 
@@ -21,7 +25,7 @@ public class Borrador extends Estado {
     @Override
     public String confirmar() {
         pedido.cambiarEstado(new Pago(pedido));
-        //TODO decrementar el Stock
+        this.realizarCompra(pedido.getTienda());
         return "El borrador del pedido se a confirmado";
     }
 
@@ -29,5 +33,9 @@ public class Borrador extends Estado {
     public String cancelar() {
         pedido.cambiarEstado(new Cancelado(pedido));
         return "El borrador del pedido se a cancelado";
+    }
+
+    private void realizarCompra(Tienda tienda) {
+        pedido.getItems().forEach(item -> tienda.registrarVenta(item, 1, item.getPrecioFinal(), LocalDate.now()));
     }
 }

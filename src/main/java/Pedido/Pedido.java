@@ -1,18 +1,18 @@
 package Pedido;
 
+import Tienda.*;
 import catalogo.Item;
-import Tienda.Deposito;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
 
     private List<Item> items = new ArrayList<>();
-    private Deposito deposito;
+    private Tienda tienda;
     private Estado estadoDelPedido = new Borrador(this);
 
-    public Pedido(Deposito deposito) {
-        this.deposito = deposito;
+    public Pedido(Tienda tienda) {
+        this.tienda = tienda;
     }
 
     //Métodos
@@ -34,6 +34,14 @@ public class Pedido {
 
     public void cambiarEstado(Estado estado) {
         estadoDelPedido = estado;
+    }
+
+    public Tienda getTienda() {
+        return tienda;
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
 
     // Estos metodos solo deberían ser usado por el estado Borrador

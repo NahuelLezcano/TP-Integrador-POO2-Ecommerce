@@ -1,5 +1,6 @@
 package Pedido;
 
+import Tienda.Tienda;
 import catalogo.Item;
 
 public class EnPreparacion extends Estado {
@@ -27,8 +28,12 @@ public class EnPreparacion extends Estado {
     @Override
     public String cancelar() {
         pedido.cambiarEstado(new Cancelado(pedido));
-        //TODO se repone Stock
+        this.reponerStock(pedido.getTienda());
         //TODO reembolso (generar y registrar una Nota de Crédito en el sistema)
         return "El pedido fue cancelado.";
+    }
+
+    private void reponerStock(Tienda tienda) {
+        pedido.getItems().forEach();
     }
 }
