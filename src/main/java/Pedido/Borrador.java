@@ -9,6 +9,7 @@ public class Borrador extends Estado {
 
     public Borrador(Pedido pedido) {
         super(pedido);
+        this.nombreDelEstado = "Borrador";
     }
 
     @Override
@@ -23,6 +24,7 @@ public class Borrador extends Estado {
 
     @Override
     public String confirmar() {
+        this.validarItems();
         pedido.cambiarEstado(new Pago(pedido));
         this.realizarCompra(pedido.getTienda()); //Esta acción decrementa el stock
         return "El borrador del pedido se a confirmado";
@@ -36,5 +38,11 @@ public class Borrador extends Estado {
 
     private void realizarCompra(Tienda tienda) {
         pedido.getItems().forEach((item, cantidad) -> tienda.registrarVenta(item, cantidad, LocalDate.now()));
+    }
+
+    private void validarItems() {
+        if (pedido.getItems().isEmpty()) {
+            throw new OperacionInvalidaException("No hay items en el pedido.");
+        }
     }
 }
