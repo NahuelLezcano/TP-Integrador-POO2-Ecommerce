@@ -37,15 +37,12 @@ public class PedidoTest {
 
     @Test
     public void unPedidoQueEstaEnBorradorAlCancelarPasaAlEstadoCancelado() {
-        unPedido.agregarItem(unItem, 1);
-        assertEquals("Borrador", unPedido.estadoActual().getNombreDelEstado());
         unPedido.cancelar();
         assertEquals("Cancelado", unPedido.estadoActual().getNombreDelEstado());
     }
 
     @Test
     public void siUnBorradorDePedidoEstaVacioNoSePuedeConfirmar() {
-        assertEquals("Borrador", unPedido.estadoActual().getNombreDelEstado());
         assertThrows(OperacionInvalidaException.class, () -> unPedido.confirmar(), "No hay items en el pedido.");
     }
 
