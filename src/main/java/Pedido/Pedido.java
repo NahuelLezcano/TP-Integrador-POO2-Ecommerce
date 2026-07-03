@@ -44,6 +44,14 @@ public class Pedido {
         return items;
     }
 
+    public int cantidadItemsAgregados() {
+        return items.size(); //Solo devuelve los Items agregados, no las cantidades de cada item en total.
+    }
+
+    public Estado estadoActual() {
+        return estadoDelPedido;
+    }
+
     // Estos métodos solo deberían ser usado por el estado Borrador
     protected void agregarItemAlPedido(Item item, Integer cantidad) {
         items.merge(item, cantidad, Integer::sum);
