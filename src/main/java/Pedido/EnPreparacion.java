@@ -9,6 +9,7 @@ public class EnPreparacion extends Estado {
 
     public EnPreparacion(Pedido pedido) {
         super(pedido);
+        this.nombreDelEstado = "EnPreparación";
     }
 
     @Override

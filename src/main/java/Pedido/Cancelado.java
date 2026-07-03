@@ -6,6 +6,7 @@ public class Cancelado extends Estado {
 
     public Cancelado(Pedido pedido) {
         super(pedido);
+        this.nombreDelEstado = "Cancelado";
     }
 
     @Override

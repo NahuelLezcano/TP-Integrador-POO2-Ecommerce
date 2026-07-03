@@ -6,6 +6,7 @@ public class Entregado extends Estado {
 
     public Entregado(Pedido pedido) {
         super(pedido);
+        this.nombreDelEstado = "Entregado";
     }
 
     @Override

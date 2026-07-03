@@ -7,6 +7,7 @@ public class Pago extends Estado {
 
     public Pago(Pedido pedido) {
         super(pedido);
+        this.nombreDelEstado = "Pago";
     }
 
     @Override
