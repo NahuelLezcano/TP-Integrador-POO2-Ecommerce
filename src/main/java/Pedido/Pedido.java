@@ -32,7 +32,7 @@ public class Pedido {
         return estadoDelPedido.cancelar();
     }
 
-    public void cambiarEstado(Estado estado) {
+    protected void cambiarEstado(Estado estado) {
         estadoDelPedido = estado;
     }
 

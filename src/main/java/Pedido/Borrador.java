@@ -26,7 +26,7 @@ public class Borrador extends Estado {
     public String confirmar() {
         this.validarItems();
         pedido.cambiarEstado(new Pago(pedido));
-        this.realizarCompra(pedido.getTienda()); //Esta acción decrementa el stock
+        this.registrarVentas(pedido.getTienda()); //Esta acción decrementa el stock
         return "El borrador del pedido se a confirmado";
     }
 
@@ -36,7 +36,7 @@ public class Borrador extends Estado {
         return "El borrador del pedido se a cancelado";
     }
 
-    private void realizarCompra(Tienda tienda) {
+    private void registrarVentas(Tienda tienda) {
         pedido.getItems().forEach((item, cantidad) -> tienda.registrarVenta(item, cantidad, LocalDate.now()));
     }
 
