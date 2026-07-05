@@ -1,7 +1,7 @@
 package Pedido;
 
 import Tienda.*;
-import catalogo.Item;
+import catalogo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,15 +9,39 @@ import static org.mockito.Mockito.mock;
 
 public class PedidoTest {
 
+    // primera parte, Estados de un pedido
     Pedido unPedido;
-    Tienda unaTienda = mock(Tienda.class);
-    Item unItem = mock(Item.class);
+    Tienda unaTienda;
+    Item unItem;
+
+    // segunda parte, tests que modifican el Stock de un Deposito
+    Item cocina;
+    Item celu;
+    Item tv;
+    Catalogo catalogoTest;
+    Deposito depositoTest;
+    Tienda tiendaTest;
+    Pedido pedidoTest;
 
     @BeforeEach
     public void setUp() {
+        // primera parte, Estados de un pedido
+        unaTienda = mock(Tienda.class);
+        unItem = mock(Item.class);
         unPedido = new Pedido(unaTienda);
+
+        // segunda parte, tests que modifican el Stock de un Deposito
+        celu = new Producto("b123", "SmartPhone 5G", "SmartThink", "Celular", 1, 200, "Smartphone");
+        tv = new Producto("c123", "TV 43", "TV inc", "Televisión", 10, 500, "TV smart");
+        catalogoTest = mock(Catalogo.class);
+        depositoTest = new Deposito();
+        depositoTest.agregarItemAlStock(celu, 20);
+        depositoTest.agregarItemAlStock(tv, 9);
+        tiendaTest = new Tienda(depositoTest, catalogoTest);
+        pedidoTest = new Pedido(tiendaTest);
     }
 
+    // primera parte, Estados de un pedido
     @Test
     public void unPedidoAlIniciarEsUnBorradorYSePuedenAgregarYQuitarItems() {
         unPedido.agregarItem(unItem, 1);
@@ -127,5 +151,48 @@ public class PedidoTest {
 
         assertThrows(OperacionInvalidaException.class, () -> unPedido.confirmar(), "El pedido fue cancelado. Estado terminal.");
         assertThrows(OperacionInvalidaException.class, () -> unPedido.cancelar(), "El pedido fue cancelado. Estado terminal.");
+    }
+    
+    // segunda parte, tests que modifican el Stock de un Deposito
+    @Test
+    public void elClienteAlConfirmarUnPedido_EsteEsPagoYSeDecrementaElStock() {
+        pedidoTest.agregarItem(celu, 2);
+        pedidoTest.agregarItem(tv, 1);
+        pedidoTest.confirmar(); // Esta pago
+
+        assertEquals(18, tiendaTest.cantidadEnStock(celu));
+        assertEquals(8, tiendaTest.cantidadEnStock(tv));
+    }
+
+    @Test
+    public void siUnPedidoEstaPagoYSeCancela_SeReponeElStock() {
+        pedidoTest.agregarItem(celu, 2);
+        pedidoTest.agregarItem(tv, 1);
+        pedidoTest.confirmar(); // Esta pago
+
+        assertEquals(18, tiendaTest.cantidadEnStock(celu));
+        assertEquals(8, tiendaTest.cantidadEnStock(tv));
+
+        pedidoTest.cancelar();
+
+        assertEquals(20, tiendaTest.cantidadEnStock(celu));
+        assertEquals(9, tiendaTest.cantidadEnStock(tv));
+    }
+
+    @Test
+    public void siUnPedidoEstaEnPreparacionYSeCancela_SeReponeElStock() {
+        pedidoTest.agregarItem(celu, 2);
+        pedidoTest.agregarItem(tv, 1);
+        pedidoTest.confirmar(); // Esta pago
+
+        assertEquals(18, tiendaTest.cantidadEnStock(celu));
+        assertEquals(8, tiendaTest.cantidadEnStock(tv));
+
+        pedidoTest.confirmar(); // Esta en preparación
+        pedidoTest.cancelar();
+
+        assertEquals(20, tiendaTest.cantidadEnStock(celu));
+        assertEquals(9, tiendaTest.cantidadEnStock(tv));
+        assertEquals("Cancelado", pedidoTest.estadoActual().getNombreDelEstado());
     }
 }
