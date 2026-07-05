@@ -9,6 +9,8 @@ public class Deposito {
 
 	private Map<Item, Integer> stock = new HashMap<>();
 
+	public Deposito() {}
+
 	public Deposito(Map<Item, Integer> stock) {
 		this.stock = stock;
 	}
