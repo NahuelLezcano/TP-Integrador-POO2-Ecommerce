@@ -35,7 +35,7 @@ public class ReporteHTML extends Reporte {
 				"<head>\n" +
 				"<meta charset=\"UTF-8\">\n" +
 				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-				"<title>Reporte de Aduana</title>\n" +
+				"<title>Reporte de Ventas</title>\n" +
 				"</head>\n" +
 				"<body>\n" +
 				"<table>\n" +
