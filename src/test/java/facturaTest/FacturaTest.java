@@ -27,6 +27,9 @@ class FacturaTest {
 		when(item1.getPrecioFinal()).thenReturn(100);
 		
 		factura.agregarItem(item1);
+		
+		assertEquals(100.0, factura.montoTotal(), 0.0001);
+        verify(item1, times(1)).getPrecioFinal();
 	}
 
 	@Test
