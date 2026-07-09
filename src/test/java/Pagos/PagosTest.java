@@ -2,15 +2,21 @@ package Pagos;
 
 import Tienda.*;
 import catalogo.Item;
+import cliente.Cliente;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class PagosTest {
 
     Item unItem;
+    Cliente clienteCredito;
+    Cliente clienteTransferencia;
+    Cliente clienteBilleteraVirtual;
     Tienda unaTienda;
     CarritoDeCompra compraConTarjeta;
     CarritoDeCompra compraConTransferencia;
@@ -23,13 +29,21 @@ public class PagosTest {
     void setUp() {
         unItem = mock(Item.class);
         unaTienda = mock(Tienda.class);
+		clienteCredito = mock(Cliente.class);
+		clienteTransferencia = mock(Cliente.class);
+		clienteBilleteraVirtual = mock(Cliente.class);
+        
         tarjetaCredito = new TarjetaDeCredito();
         transferencia = new TransferenciaBancaria();
         billeteraVirtual = new BilleteraVirtual();
+        
+        when(clienteCredito.getNombre()).thenReturn("usuario-TarjetaDeCrédito");
+        when(clienteTransferencia.getNombre()).thenReturn("usuario-Transferencia");
+        when(clienteBilleteraVirtual.getNombre()).thenReturn("usuario-BilleteraVirtual");
 
-        compraConTarjeta = new CarritoDeCompra(unaTienda, tarjetaCredito, "usuario-TarjetaDeCrédito");
-        compraConTransferencia = new CarritoDeCompra(unaTienda, transferencia, "usuario-Transferencia");
-        compraConBilletera = new CarritoDeCompra(unaTienda, billeteraVirtual, "usuario-BilleteraVirtual");
+        compraConTarjeta = new CarritoDeCompra(unaTienda, tarjetaCredito, clienteCredito);
+        compraConTransferencia = new CarritoDeCompra(unaTienda, transferencia, clienteTransferencia);
+        compraConBilletera = new CarritoDeCompra(unaTienda, billeteraVirtual, clienteBilleteraVirtual);
     }
 
     @Test
