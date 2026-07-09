@@ -2,6 +2,7 @@ package Pedido;
 
 import Tienda.*;
 import catalogo.Item;
+import cliente.Cliente;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,9 +18,11 @@ public class Pedido {
     private Tienda tienda;
     private Estado estadoDelPedido = new Borrador(this);
     private List<Observador> observadores = new ArrayList<>();
+    private Cliente cliente;
 
-    public Pedido(Tienda tienda) {
+    public Pedido(Tienda tienda, Cliente cliente) {
         this.tienda = tienda;
+        this.cliente = cliente;
     }
 
     //Métodos
@@ -112,6 +115,10 @@ public class Pedido {
 
 	public boolean hayItems() {
 		return !items.isEmpty();
+	}
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 	
 }

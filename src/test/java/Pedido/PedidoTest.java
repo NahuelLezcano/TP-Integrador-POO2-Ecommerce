@@ -2,6 +2,8 @@ package Pedido;
 
 import Tienda.*;
 import catalogo.*;
+import cliente.Cliente;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +15,7 @@ public class PedidoTest {
     Pedido unPedido;
     Tienda unaTienda;
     Item unItem;
+    Cliente cliente;
 
     // segunda parte, tests que modifican el Stock de un Deposito
     Item cocina;
@@ -28,7 +31,8 @@ public class PedidoTest {
         // primera parte, Estados de un pedido
         unaTienda = mock(Tienda.class);
         unItem = mock(Item.class);
-        unPedido = new Pedido(unaTienda);
+        cliente = mock(Cliente.class);
+        unPedido = new Pedido(unaTienda, cliente);
 
         // segunda parte, tests que modifican el Stock de un Deposito
         celu = new Producto("b123", "SmartPhone 5G", "SmartThink", "Celular", 1, 200, "Smartphone");
@@ -38,7 +42,7 @@ public class PedidoTest {
         depositoTest.agregarItemAlStock(celu, 20);
         depositoTest.agregarItemAlStock(tv, 9);
         tiendaTest = new Tienda(depositoTest, catalogoTest);
-        pedidoTest = new Pedido(tiendaTest);
+        pedidoTest = new Pedido(tiendaTest, cliente);
     }
 
     // primera parte, Estados de un pedido
