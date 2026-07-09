@@ -21,10 +21,10 @@ public class NotificadorDeEmail implements Observador, MailSender {
 			|| "ENVIADO".equalsIgnoreCase(estadoNuevo)
 			|| "ENTREGADO".equalsIgnoreCase(estadoNuevo)) {
 			
-			System.out.println("El pedido cambió de " +
-			anterior.getNombreDelEstado() +
-			" a " +
-			estadoNuevo);
+			String correo = getPedido().getCliente().getCorreo();
+			String mensaje = "El estado del pedido cambió de " + anterior.getNombreDelEstado() + " a " + estadoNuevo;
+
+			enviarMail(correo, "Estado actualizado", mensaje, "");
 		}
 	}
 
@@ -38,6 +38,6 @@ public class NotificadorDeEmail implements Observador, MailSender {
 
 	@Override
 	public void enviarMail(String direccionDestino, String titulo, String mensaje, String adjunto) {
-		System.out.println("Para: " + direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
+		System.out.println(direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
 	}
 }
