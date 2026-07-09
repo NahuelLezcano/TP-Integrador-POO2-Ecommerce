@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import notificacion.*;
 
 public class Pedido {
@@ -90,6 +92,26 @@ public class Pedido {
 	    for (Observador o : observadores) {
 	        o.actualizar(this, anterior, nuevo);
 	    }
+	}
+	
+	public String nombresDeItems() {
+		if (hayItems()) {
+			return items.keySet().stream().map(Item::getNombre).collect(Collectors.joining(", "));
+		} else {
+			return "";
+		}
+	}
+
+	public int montoTotal() {
+		if (hayItems()) {
+			return items.entrySet().stream().mapToInt(e -> e.getKey().getPrecioFinal() * e.getValue()).sum();
+		} else {
+			return 0;
+		}
+	}
+
+	public boolean hayItems() {
+		return !items.isEmpty();
 	}
 	
 }
