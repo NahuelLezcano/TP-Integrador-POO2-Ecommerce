@@ -30,13 +30,17 @@ public class Fidelizacion implements Observador, MailSender {
 
 	@Override
 	public void enviarMail(String direccionDestino, String titulo, String mensaje, String adjunto) {
-		// TODO Auto-generated method stub
+		System.out.println(direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
 		
 	}
 
 	@Override
 	public void actualizar(Pedido pedido, Estado estadoAnterior, Estado estadoNuevo) {
-		// TODO Auto-generated method stub
+		String correo = getPedido().getCliente().getCorreo();
+		String mensaje = "Recibió un descuento del " + getDescuento() + "%";
+		if ("CANCELADO".equalsIgnoreCase(estadoNuevo.getNombreDelEstado())) {
+			enviarMail(correo, "Descuento", mensaje, "");
+		}
 		
 	}
 
