@@ -3,22 +3,24 @@ package Tienda;
 import Pagos.*;
 import Pedido.*;
 import catalogo.Item;
+import cliente.Cliente;
+
 import java.util.Map;
 
 public class CarritoDeCompra {
 
     private MetodoDePago metodoDePago;
     private Pedido pedido;
-    private String usuario;
+    private Cliente usuario;
 
-    public CarritoDeCompra(Tienda tienda, MetodoDePago metodoDePago, String usuario) {
+    public CarritoDeCompra(Tienda tienda, MetodoDePago metodoDePago, Cliente usuario) {
         this.metodoDePago = metodoDePago;
         this.usuario = usuario;
-        pedido = new Pedido(tienda);
+        this.pedido = new Pedido(tienda, usuario);
     }
 
     public String getUsuario() {
-        return usuario;
+        return usuario.getNombre();
     }
 
     public Pedido getPedido() {
@@ -44,7 +46,7 @@ public class CarritoDeCompra {
     public void pagar() {
         this.validarPedido(pedido);
         ModuloDePago moduloDePago = new ModuloDePago();
-        moduloDePago.realizarCobro(metodoDePago, usuario);
+        moduloDePago.realizarCobro(metodoDePago, usuario.getNombre());
         this.confirmarPedido(moduloDePago);
     }
 

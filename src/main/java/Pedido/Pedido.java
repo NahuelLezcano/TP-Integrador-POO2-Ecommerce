@@ -2,17 +2,27 @@ package Pedido;
 
 import Tienda.*;
 import catalogo.Item;
+import cliente.Cliente;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import notificacion.*;
 
 public class Pedido {
 
     private Map<Item, Integer> items = new HashMap<>();
     private Tienda tienda;
     private Estado estadoDelPedido = new Borrador(this);
+    private List<Observador> observadores = new ArrayList<>();
+    private Cliente cliente;
 
-    public Pedido(Tienda tienda) {
+    public Pedido(Tienda tienda, Cliente cliente) {
         this.tienda = tienda;
+        this.cliente = cliente;
     }
 
     //Métodos
@@ -32,11 +42,13 @@ public class Pedido {
         return estadoDelPedido.cancelar();
     }
 
-    protected void cambiarEstado(Estado estado) {
-        estadoDelPedido = estado;
+    protected void cambiarEstado(Estado nuevoEstado) {
+        Estado anterior = this.estadoDelPedido;
+        this.estadoDelPedido = nuevoEstado;
+        notificarObservadores(anterior, nuevoEstado);
     }
 
-    public Tienda getTienda() {
+	public Tienda getTienda() {
         return tienda;
     }
 
@@ -70,4 +82,43 @@ public class Pedido {
             return stockActual - cantidad;
         });
     }
+
+	public List<Observador> getObservadores() {
+		return observadores;
+	}
+	
+	public void agregarObservador(Observador observador) {
+		observadores.add(observador);
+	}
+	
+	private void notificarObservadores(Estado anterior, Estado nuevo) {
+	    for (Observador o : observadores) {
+	        o.actualizar(this, anterior, nuevo);
+	    }
+	}
+	
+	public String nombresDeItems() {
+		if (hayItems()) {
+			return items.keySet().stream().map(Item::getNombre).collect(Collectors.joining(", "));
+		} else {
+			return "";
+		}
+	}
+
+	public int montoTotal() {
+		if (hayItems()) {
+			return items.entrySet().stream().mapToInt(e -> e.getKey().getPrecioFinal() * e.getValue()).sum();
+		} else {
+			return 0;
+		}
+	}
+
+	public boolean hayItems() {
+		return !items.isEmpty();
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+	
 }

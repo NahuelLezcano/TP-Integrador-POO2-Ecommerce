@@ -1,23 +1,27 @@
 package cliente;
 
-import factura.Factura;
+import Pedido.Pedido;
 
 public class Cliente {
 	
 	private String nombre;
+	private String correo;
 	
-	public Cliente (String nombre) {
+	public Cliente (String nombre, String correo) {
 		this.nombre = nombre;
+		this.correo = correo;
 	}
 	
 	public String getNombre(){
 		return nombre;
 	}
 	
-	public void recibirFactura(Factura factura) {
-        // recibir correo en el mail, no hace nada.
+	public String getCorreo() {
+		return correo;
+	}
+	
+	public void recibirMail(Pedido pedido) {
+        // no hace nada.
     }
-	
-	
 
 }
