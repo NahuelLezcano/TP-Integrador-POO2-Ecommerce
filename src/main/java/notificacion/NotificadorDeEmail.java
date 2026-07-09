@@ -4,7 +4,7 @@ import Pedido.Estado;
 import Pedido.Pedido;
 import cliente.Cliente;
 
-public class NotificadorDeEmail implements Observador {
+public class NotificadorDeEmail implements Observador, MailSender {
 
 	private Cliente cliente;
 	private Pedido pedido;
@@ -16,15 +16,15 @@ public class NotificadorDeEmail implements Observador {
 
 	@Override
 	public void actualizar(Pedido pedido, Estado anterior, Estado nuevo) {
-		String nombreNuevo = nuevo.getNombreDelEstado();
-		if ("CONFIRMADO".equalsIgnoreCase(nombreNuevo) 
-			|| "ENVIADO".equalsIgnoreCase(nombreNuevo)
-			|| "ENTREGADO".equalsIgnoreCase(nombreNuevo)) {
+		String estadoNuevo = nuevo.getNombreDelEstado();
+		if ("CONFIRMADO".equalsIgnoreCase(estadoNuevo) 
+			|| "ENVIADO".equalsIgnoreCase(estadoNuevo)
+			|| "ENTREGADO".equalsIgnoreCase(estadoNuevo)) {
 			
 			System.out.println("El pedido cambió de " +
 			anterior.getNombreDelEstado() +
 			" a " +
-			nombreNuevo);
+			estadoNuevo);
 		}
 	}
 
@@ -34,5 +34,10 @@ public class NotificadorDeEmail implements Observador {
 
 	public Pedido getPedido() {
 		return pedido;
+	}
+
+	@Override
+	public void enviarMail(String direccionDestino, String titulo, String mensaje, String adjunto) {
+		System.out.println("Para: " + direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
 	}
 }
