@@ -13,12 +13,17 @@ class clienteTest {
 
 	@BeforeEach
 	void setUp() {
-		cliente = new Cliente("Pepe");
+		cliente = new Cliente("Pepe", "pepe@gmail.com");
 	}
 
 	@Test
 	void nombreTest() {
 		assertEquals("Pepe", cliente.getNombre());
+	}
+	
+	@Test
+	void correoTest() {
+		assertEquals("pepe@gmail.com", cliente.getCorreo());
 	}
 
 }

@@ -1,7 +1,6 @@
 package cliente;
 
-import Pedido.Estado;
-import factura.Factura;
+import Pedido.Pedido;
 
 public class Cliente {
 	
@@ -21,12 +20,8 @@ public class Cliente {
 		return correo;
 	}
 	
-	public void recibirFactura(Factura factura) {
+	public void recibirMail(Pedido pedido) {
         // no hace nada.
     }
-	
-	public void recibirActualizacion(Estado estado) {
-		// no hace nada.
-	}
 
 }
