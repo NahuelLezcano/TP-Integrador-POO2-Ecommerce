@@ -3,7 +3,7 @@ package notificacion;
 import Pedido.Estado;
 import Pedido.Pedido;
 
-public class GeneradorDeFactura implements Observador {
+public class GeneradorDeFactura implements Observador, MailSender {
 	
 	private Pedido pedido;
 	
@@ -13,8 +13,9 @@ public class GeneradorDeFactura implements Observador {
 
 	@Override
     public void actualizar(Pedido pedido, Estado anterior, Estado nuevo) {
+		String correo = getPedido().getCliente().getCorreo();
         if ("ENTREGADO".equalsIgnoreCase(nuevo.getNombreDelEstado())) {
-            crearFactura();
+            enviarMail(correo, "Factura", "Se adjunta la factura del pedido", crearFactura());
         }
     }
 
@@ -31,6 +32,12 @@ public class GeneradorDeFactura implements Observador {
 	
 	public Pedido getPedido() {
 		return pedido;
+	}
+
+	@Override
+	public void enviarMail(String direccionDestino, String titulo, String mensaje, String adjunto) {
+		System.out.println(direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
+		
 	}
 
 }
