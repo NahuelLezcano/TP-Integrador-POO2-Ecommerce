@@ -19,10 +19,6 @@ public class Fidelizacion implements Observador, MailSender {
 	public double calcularDescuento() {
 		return getDescuento() / 100.0;
 	}
-	
-	public void enviarDescuento() {
-		
-	}
 
 	public Pedido getPedido() {
 		return pedido;
@@ -30,13 +26,17 @@ public class Fidelizacion implements Observador, MailSender {
 
 	@Override
 	public void enviarMail(String direccionDestino, String titulo, String mensaje, String adjunto) {
-		// TODO Auto-generated method stub
+		System.out.println(direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
 		
 	}
 
 	@Override
 	public void actualizar(Pedido pedido, Estado estadoAnterior, Estado estadoNuevo) {
-		// TODO Auto-generated method stub
+		String correo = getPedido().getCliente().getCorreo();
+		String mensaje = "Recibió un descuento del " + getDescuento() + "%";
+		if ("Cancelado".equalsIgnoreCase(estadoNuevo.getNombreDelEstado())) {
+			enviarMail(correo, "Descuento", mensaje, "");
+		}
 		
 	}
 

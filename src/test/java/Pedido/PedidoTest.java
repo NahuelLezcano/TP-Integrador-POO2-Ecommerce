@@ -3,11 +3,18 @@ package Pedido;
 import Tienda.*;
 import catalogo.*;
 import cliente.Cliente;
+import notificacion.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 public class PedidoTest {
 
@@ -25,6 +32,10 @@ public class PedidoTest {
     Deposito depositoTest;
     Tienda tiendaTest;
     Pedido pedidoTest;
+    
+    // estados
+    Estado estadoPago;
+	Estado estadoBorrador;
 
     @BeforeEach
     public void setUp() {
@@ -43,6 +54,12 @@ public class PedidoTest {
         depositoTest.agregarItemAlStock(tv, 9);
         tiendaTest = new Tienda(depositoTest, catalogoTest);
         pedidoTest = new Pedido(tiendaTest, cliente);
+        
+        //Estados
+        estadoPago = mock(Estado.class);
+    	estadoBorrador = mock(Estado.class);
+        when(estadoPago.getNombreDelEstado()).thenReturn("Pago");
+		when(estadoBorrador.getNombreDelEstado()).thenReturn("Borrador");
     }
 
     // primera parte, Estados de un pedido
@@ -199,4 +216,79 @@ public class PedidoTest {
         assertEquals(9, tiendaTest.cantidadEnStock(tv));
         assertEquals("Cancelado", pedidoTest.estadoActual().getNombreDelEstado());
     }
+
+	@Test
+	void testGetCliente() {
+		assertEquals(cliente, unPedido.getCliente());
+	}
+
+	@Test
+	void testNombresDeItems() {
+		assertEquals("", pedidoTest.nombresDeItems());
+		
+		pedidoTest.agregarItem(celu, 1);
+
+		assertEquals("SmartPhone 5G", pedidoTest.nombresDeItems());
+	}
+
+	@Test
+	void testMontoTotal() {
+		assertEquals(0, pedidoTest.montoTotal());
+		
+		pedidoTest.agregarItem(celu, 1);
+		pedidoTest.agregarItem(tv, 1);
+
+		assertEquals(700, pedidoTest.montoTotal());
+	}
+
+	@Test
+	void testHayItems() {
+		assertFalse(unPedido.hayItems());
+
+		unPedido.agregarItem(celu, 1);
+
+		assertTrue(unPedido.hayItems());
+	}
+
+	@Test
+	void testNotificarObservadores() {
+		Observador observador = mock(Observador.class);
+
+		unPedido.cambiarEstado(estadoBorrador);
+
+		unPedido.agregarObservador(observador);
+		assertEquals(List.of(observador), unPedido.getObservadores());
+		
+		unPedido.cambiarEstado(estadoPago);
+
+		verify(observador).actualizar(eq(unPedido), eq(estadoBorrador), eq(estadoPago));
+
+	}
+
+	@Test
+	void testGetTienda() {
+		assertEquals(unaTienda, unPedido.getTienda());
+	}
+
+	@Test
+	void testQuitarItemCantidadInvalida() {
+		unPedido.agregarItemAlPedido(celu, 5);
+
+		unPedido.quitarItemAlPedido(celu, 0);
+		assertEquals(1, unPedido.cantidadItemsAgregados());
+		assertEquals(5, unPedido.getItems().get(celu));
+	}
+
+	@Test
+	void testQuitarItemCasoNormal() {
+		unPedido.agregarItemAlPedido(celu, 5);
+
+		unPedido.quitarItemAlPedido(celu, 2);
+		assertEquals(3, unPedido.getItems().get(celu));
+	}
+
+
+
+    
+    
 }

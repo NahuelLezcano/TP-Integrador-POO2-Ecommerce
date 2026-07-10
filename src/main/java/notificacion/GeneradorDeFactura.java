@@ -14,7 +14,7 @@ public class GeneradorDeFactura implements Observador, MailSender {
 	@Override
     public void actualizar(Pedido pedido, Estado anterior, Estado nuevo) {
 		String correo = getPedido().getCliente().getCorreo();
-        if ("ENTREGADO".equalsIgnoreCase(nuevo.getNombreDelEstado())) {
+        if ("Entregado".equalsIgnoreCase(nuevo.getNombreDelEstado())) {
             enviarMail(correo, "Factura", "Se adjunta la factura del pedido", crearFactura());
         }
     }
