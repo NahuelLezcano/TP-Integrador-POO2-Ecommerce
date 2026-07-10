@@ -6,13 +6,15 @@ public class Paquete implements Item  {
 	
 	private String nombre;
 	private String descripcion;
+	private String categoria;
 	private int descuento;
 	private List<Item> items = new ArrayList<>();
 	
-	public Paquete(String nombre, String descripcion, int descuento, List<Item> items) {
+	public Paquete(String nombre, String descripcion, String categoria, int descuento, List<Item> items) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.descuento = descuento;
+		this.categoria = categoria;
 		this.items = items;
 	}
 	
@@ -61,6 +63,10 @@ public class Paquete implements Item  {
 	
 	public boolean tieneItems() {
 		return !getItems().isEmpty();
+	}
+
+	public String getCategoria() {
+		return categoria;
 	}
 	
 	public boolean itemsSonValidos() {

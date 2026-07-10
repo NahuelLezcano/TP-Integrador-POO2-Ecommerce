@@ -29,7 +29,7 @@ class ReporteTest {
 
 		auriculares = new Producto("BR111", "Galaxy Buds 4 Pro", "Samsung", "Tecnología", 10, 620000, "Sonido cálido");
 
-		celularNuevo = new Paquete("Pack celular nuevo", "Incluye un celular y auriculares", 10,
+		celularNuevo = new Paquete("Pack celular nuevo", "Incluye un celular y auriculares", "Tecnología", 10,
 				new ArrayList<>(List.of(celular, auriculares)));
 
 		deposito = new Deposito(new HashMap<>());

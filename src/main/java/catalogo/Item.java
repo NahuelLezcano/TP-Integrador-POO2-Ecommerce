@@ -11,5 +11,6 @@ public interface Item {
 	public String getDescripcion();
 	
 	public int getPrecioBase();
-	
+
+	String getCategoria();
 }
