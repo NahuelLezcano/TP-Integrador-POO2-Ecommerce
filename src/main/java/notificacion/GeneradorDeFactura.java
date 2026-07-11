@@ -2,34 +2,29 @@ package notificacion;
 
 import Pedido.Estado;
 import Pedido.Pedido;
+import factura.Factura;
 
 public class GeneradorDeFactura implements Observador, MailSender {
-	
+
 	private Pedido pedido;
-	
-	public GeneradorDeFactura (Pedido pedido) {
+
+	public GeneradorDeFactura(Pedido pedido) {
 		this.pedido = pedido;
 	}
 
 	@Override
-    public void actualizar(Pedido pedido, Estado anterior, Estado nuevo) {
+	public void actualizar(Pedido pedido, Estado anterior, Estado nuevo) {
 		String correo = getPedido().getCliente().getCorreo();
-        if ("Entregado".equalsIgnoreCase(nuevo.getNombreDelEstado())) {
-            enviarMail(correo, "Factura", "Se adjunta la factura del pedido", crearFactura());
-        }
-    }
+		if ("Entregado".equalsIgnoreCase(nuevo.getNombreDelEstado())) {
+			Factura factura = crearFactura();
+			enviarMail(correo, "Factura", "Desglose de su pedido:", factura.desgloseDeFactura());
+		}
+	}
 
-	public String crearFactura() {
-		String nombres = getPedido().nombresDeItems();
-	    int total = getPedido().montoTotal();
+	public Factura crearFactura() {
+		return new Factura(getPedido().getItems());
+	}
 
-	    StringBuilder sb = new StringBuilder();
-	    sb.append("Factura:\n");
-	    sb.append(nombres).append(".\n");
-	    sb.append("Monto Final: $").append(total);
-	    return sb.toString();
-    }
-	
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -37,7 +32,7 @@ public class GeneradorDeFactura implements Observador, MailSender {
 	@Override
 	public void enviarMail(String direccionDestino, String titulo, String mensaje, String adjunto) {
 		System.out.println(direccionDestino + "\n" + titulo + "\n" + mensaje + "\n" + adjunto);
-		
+
 	}
 
 }
