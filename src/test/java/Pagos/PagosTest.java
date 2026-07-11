@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -22,9 +23,15 @@ public class PagosTest {
     CarritoDeCompra compraConTransferencia;
     CarritoDeCompra compraConBilletera;
     TarjetaDeCredito tarjetaCredito;
+    TarjetaDeCredito tarjetaCredito2;
     TransferenciaBancaria transferencia;
+    TransferenciaBancaria transferencia2;
     BilleteraVirtual billeteraVirtual;
-
+    BilleteraVirtual billeteraVirtual2;
+    IBilleteraVirtual apiBV;
+    ITransferenciaBancaria apiTrans;
+    ITarjetaDeCredito apiTC;
+    
     @BeforeEach
     void setUp() {
         unItem = mock(Item.class);
@@ -32,10 +39,16 @@ public class PagosTest {
 		clienteCredito = mock(Cliente.class);
 		clienteTransferencia = mock(Cliente.class);
 		clienteBilleteraVirtual = mock(Cliente.class);
+		apiBV = mock(IBilleteraVirtual.class);
+		apiTrans = mock(ITransferenciaBancaria.class);
+		apiTC = mock(ITarjetaDeCredito.class);
         
         tarjetaCredito = new TarjetaDeCredito();
+        tarjetaCredito2 = new TarjetaDeCredito(01234567, 555, "07/26");
         transferencia = new TransferenciaBancaria();
+        transferencia2 = new TransferenciaBancaria(987654321, 753159828, "Alias");
         billeteraVirtual = new BilleteraVirtual();
+        billeteraVirtual2 = new BilleteraVirtual(850.0);
         
         when(clienteCredito.getNombre()).thenReturn("usuario-TarjetaDeCrédito");
         when(clienteTransferencia.getNombre()).thenReturn("usuario-Transferencia");
@@ -48,8 +61,7 @@ public class PagosTest {
 
     @Test
     public void alComprarConTarjetaDeCredito_SeGeneraUnComprobante() {
-        ITarjetaDeCredito api = mock(ITarjetaDeCredito.class);
-        tarjetaCredito.setApi(api);
+        tarjetaCredito.setApi(apiTC);
 
         compraConTarjeta.agregarItem(unItem, 5);
         compraConTarjeta.pagar();
@@ -59,8 +71,7 @@ public class PagosTest {
 
     @Test
     public void alUtilizarTransferenciaEnUnaCompra_SeGeneraUnComprobante() {
-        ITransferenciaBancaria api = mock(ITransferenciaBancaria.class);
-        transferencia.setApi(api);
+        transferencia.setApi(apiTrans);
 
         compraConTransferencia.agregarItem(unItem, 1);
         compraConTransferencia.pagar();
@@ -70,12 +81,43 @@ public class PagosTest {
 
     @Test
     public void alUtilizarUnaBilleteraVirtualParaComprar_SeNoSeGeneraComprobante() {
-        IBilleteraVirtual api = mock(IBilleteraVirtual.class);
-        billeteraVirtual.setApi(api);
+        billeteraVirtual.setApi(apiBV);
 
         compraConBilletera.agregarItem(unItem, 4);
         compraConBilletera.pagar();
         assertTrue(billeteraVirtual.getComprobantes().isEmpty());
+    }
+    
+    @Test
+    void validarDatosTarjetaInvocaApi() {
+        tarjetaCredito.setApi(apiTC);
+
+        tarjetaCredito.validarDatos();
+        verify(apiTC).validarDatos();
+    }
+
+    @Test
+    void reservarFondosTarjetaInvocaPreAutorizacion() {
+        tarjetaCredito.setApi(apiTC);
+
+        tarjetaCredito.reservarFondos();
+        verify(apiTC).preAutorizacion();
+    }
+
+    @Test
+    void ejecutarTransaccionTransferenciaInvocaApi() {
+        transferencia.setApi(apiTrans);
+
+        transferencia.ejecutarTransaccion();
+        verify(apiTrans).transferir();
+    }
+
+    @Test
+    void notificarResultadoBilleteraInvocaPush() {
+        billeteraVirtual.setApi(apiBV);
+
+        billeteraVirtual.notificarResultado("usuario-BilleteraVirtual");
+        verify(apiBV).notificacionPush("usuario-BilleteraVirtual");
     }
 
 }
