@@ -10,6 +10,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +19,7 @@ import Pedido.Estado;
 import Pedido.Pedido;
 import catalogo.Item;
 import cliente.Cliente;
+import factura.Factura;
 import notificacion.*;
 
 class norificaionTest {
@@ -29,6 +32,7 @@ class norificaionTest {
 	Estado estadoEnviado;
 	Estado estadoCancelado;
 	Estado estadoBorrador;
+	Factura factura;
 	NotificadorDeEmail notificadorDeEmail;
 	Fidelizacion fidelizacion;
 	GeneradorDeFactura generadorDeFactura;
@@ -43,6 +47,10 @@ class norificaionTest {
 		estadoEnviado = mock(Estado.class);
 		estadoCancelado = mock(Estado.class);
 		estadoBorrador = mock(Estado.class);
+		factura = mock(Factura.class);
+		
+		when(celular.getNombre()).thenReturn("celular");
+		when(celular.getPrecioFinal()).thenReturn(127000);
 
 		when(estadoPago.getNombreDelEstado()).thenReturn("Pago");
 		when(estadoEntregado.getNombreDelEstado()).thenReturn("Entregado");
@@ -54,6 +62,9 @@ class norificaionTest {
 		when(pedido.montoTotal()).thenReturn(127000);
 		when(pedido.getCliente()).thenReturn(cliente);
 		when(pedido.getCliente().getCorreo()).thenReturn("sebastian@gmail.com");
+		when(pedido.getItems()).thenReturn(Map.of(celular, 1));
+		
+		when(factura.getItems()).thenReturn(Map.of(celular, 1));
 
 		generadorDeFactura = new GeneradorDeFactura(pedido);
 		notificadorDeEmail = new NotificadorDeEmail(pedido);
@@ -72,7 +83,7 @@ class norificaionTest {
 
 	@Test
 	void testCrearFactura() {
-		assertEquals("Factura:\n" + "celular.\n" + "Monto Final: $127000", generadorDeFactura.crearFactura());
+		assertEquals(factura.getItems(), generadorDeFactura.crearFactura().getItems());
 	}
 
 	@Test
@@ -84,8 +95,8 @@ class norificaionTest {
 		verify(spyGenerador, times(1)).enviarMail(
 				eq("sebastian@gmail.com"), 
 				eq("Factura"),
-				eq("Se adjunta la factura del pedido"), 
-				eq("Factura:\n" + "celular.\n" + "Monto Final: $127000"));
+				eq("Desglose de su pedido:"), 
+				eq("Factura:\ncelular x1\nMonto Total: $127000.0"));
 	}
 	
 	@Test
