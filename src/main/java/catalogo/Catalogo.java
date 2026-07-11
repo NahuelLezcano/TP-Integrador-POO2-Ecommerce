@@ -37,6 +37,10 @@ public class Catalogo {
     public boolean contiene(Item item) {
     	return getItems().contains(item);
     }
+
+    public Deposito getDeposito() {
+        return deposito;
+    }
     
 }
 

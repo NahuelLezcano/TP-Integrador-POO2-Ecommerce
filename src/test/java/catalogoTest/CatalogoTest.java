@@ -34,11 +34,11 @@ class CatalogoTest {
 		cargador = new Producto("MM169", "Cargador", "Samsung", "Tecnología", 25, 35000, "Carga Rápida",
 				List.of("Carga=15W", "Color=Negro"));
 
-		celularNuevo = new Paquete("Pack celular nuevo", "Incluye un celular y auriculares", 10,
+		celularNuevo = new Paquete("Pack celular nuevo", "Incluye un celular y auriculares", "Tecnología",10,
 				new ArrayList<>(List.of(celular, auriculares)));
 
 		celularExpandido = new Paquete("Pack celular nuevo con más memoria",
-				"Incluye un celular con memoria msd, auriculares y cargador", 20,
+				"Incluye un celular con memoria msd, auriculares y cargador", "Tecnología", 20,
 				new ArrayList<>(List.of(celularNuevo, memoria)));
 
 		deposito = new Deposito(new HashMap<>());
