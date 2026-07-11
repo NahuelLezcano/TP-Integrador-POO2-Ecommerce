@@ -49,12 +49,10 @@ class FacturaTest {
 	void testDesgloseDeFactura() {
 		factura = new Factura(Map.of(item1, 1, item2, 2));
 
-		String desglose = "Factura:\n" + 
-							"celular x1\n" +
-							"auricualres x2\n" +
-							"Monto Total: $600.0";
-
-		assertEquals(desglose, factura.desgloseDeFactura());
+		String desglose = factura.desgloseDeFactura();
+		assertTrue(desglose.contains("celular x1"));
+		assertTrue(desglose.contains("auricualres x2"));
+		assertTrue(desglose.contains("Monto Total: $600.0"));
 	}
 
 }

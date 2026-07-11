@@ -1,6 +1,8 @@
 package tienda;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -8,7 +10,11 @@ import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Pagos.MetodoDePago;
+import Pedido.OperacionInvalidaException;
+import Pedido.Pedido;
 import catalogo.*;
+import cliente.Cliente;
 import Tienda.*;
 
 class TiendaTest {
@@ -20,39 +26,54 @@ class TiendaTest {
 	Deposito deposito;
 	Tienda tienda;
 	LocalDate fecha;
+	Cliente cliente;
+    MetodoDePago metodoDePago;
+    CarritoDeCompra carrito;
+    Pedido pedido;
 
-	/*
-	 * No me funciona el mock ni importándolo, por eso inicializo todo, la idea del
-	 * mock es no inicializar cosas que no tienen que ver con las clases a testear
-	 * en este caso, tienda, deposito y venta.
-	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		celular = new Producto("AR528", "Samsung Galaxy A20", "Samsung", "Tecnología", 169, 127000, "Celular duradero");
-
-		auriculares = new Producto("BR111", "Galaxy Buds 4 Pro", "Samsung", "Tecnología", 10, 620000, "Sonido cálido");
-
-		celularNuevo = new Paquete("Pack celular nuevo", "Incluye un celular y auriculares", "Tecnología", 10,
-				new ArrayList<>(List.of(celular, auriculares)));
-
+		
+		celular = mock(Producto.class);
+		auriculares = mock(Producto.class);
+		celularNuevo = mock(Paquete.class);
+		catalogo = mock(Catalogo.class);
+		cliente = mock(Cliente.class);
+		metodoDePago = mock(MetodoDePago.class);
+		pedido = mock(Pedido.class);
+		
+		when(celular.getPrecioFinal()).thenReturn(127000);
+		when(celular.validar()).thenReturn(true);
+		
+		when(auriculares.getPrecioFinal()).thenReturn(620000);
+		when(auriculares.validar()).thenReturn(true);
+		
+		when(celularNuevo.getPrecioFinal()).thenReturn(672300);
+		when(celularNuevo.getItems()).thenReturn(new ArrayList<>(List.of(celular, auriculares)));
+		when(celularNuevo.validar()).thenReturn(true);
+		
+		when(cliente.getNombre()).thenReturn("Sebastian");
+		
+		when(pedido.getCliente()).thenReturn(cliente);
+		
 		deposito = new Deposito(new HashMap<>());
 		deposito.agregarItemAlStock(celularNuevo, 1);
 		deposito.agregarItemAlStock(celular, 5);
 		deposito.agregarItemAlStock(auriculares, 3);
-
-		catalogo = new Catalogo(new ArrayList<>(List.of(celularNuevo)), deposito);
-
+		
 		tienda = new Tienda(deposito, catalogo);
+		
+		carrito = new CarritoDeCompra(tienda, metodoDePago, cliente);
 
 		fecha = LocalDate.of(2025, 10, 5);
 
 	}
 
 	@Test
-	void gettersYSetters() {
+	void testDepositoYTiendaGettersYSetters() {
 
 		Deposito depositoNuevo = new Deposito(new HashMap<>());
-		depositoNuevo.agregarItemAlStock(celularNuevo, 2);
+		depositoNuevo.agregarItemAlStock(celularNuevo, 1);
 		Catalogo catalogoNuevo = new Catalogo(new ArrayList<>(List.of(auriculares)), deposito);
 
 		tienda.setCatalogo(catalogoNuevo);
@@ -64,39 +85,40 @@ class TiendaTest {
 	}
 
 	@Test
-	void registrarVentasYStock() {
+    void testRegistrarVentasYStock() {
 
-		tienda.registrarVenta(celular, 3, fecha);
-		tienda.registrarVenta(auriculares, 2, fecha);
-		tienda.registrarVenta(celularNuevo, 1, fecha);
+        tienda.registrarVenta(celular, 3, fecha);
+        tienda.registrarVenta(auriculares, 2, fecha);
+        tienda.registrarVenta(celularNuevo, 1, fecha);
 
-		assertEquals(2, tienda.cantidadEnStock(celular));
-		assertEquals(1, tienda.cantidadEnStock(auriculares));
-		assertEquals(0, tienda.cantidadEnStock(celularNuevo));
+        assertEquals(2, tienda.cantidadEnStock(celular));
+        assertEquals(1, tienda.cantidadEnStock(auriculares));
+        assertEquals(0, tienda.cantidadEnStock(celularNuevo));
 
-		assertEquals(3, tienda.cantidadVendida(celular));
-		assertEquals(2, tienda.cantidadVendida(auriculares));
-		assertEquals(1, tienda.cantidadVendida(celularNuevo));
-	}
-
-	@Test
-	void precioPromedioYProductosMasVendidos() {
-
-		tienda.registrarVenta(celular, 1, fecha);
-		tienda.registrarVenta(celular, 1, fecha);
-		tienda.registrarVenta(auriculares, 1, fecha);
-
-		assertEquals(127000.0, tienda.precioPromedioCobrado(celular));
-		assertEquals(620000.0, tienda.precioPromedioCobrado(auriculares));
-
-		List<Item> masVendidos = tienda.productosMasVendidos();
-		assertFalse(masVendidos.isEmpty());
-		assertEquals(celular, masVendidos.get(0));
-		assertEquals(auriculares, masVendidos.get(1));
-	}
+        assertEquals(3, tienda.cantidadVendida(celular));
+        assertEquals(2, tienda.cantidadVendida(auriculares));
+        assertEquals(1, tienda.cantidadVendida(celularNuevo));
+    }
 
 	@Test
-	void ventaGetters() {
+    void testPrecioPromedioYProductosMasVendidos() {
+		assertEquals(0.0, tienda.precioPromedioCobrado(celular));
+
+        tienda.registrarVenta(celular, 1, fecha);
+        tienda.registrarVenta(celular, 1, fecha);
+        tienda.registrarVenta(auriculares, 1, fecha);
+
+        assertEquals(127000.0, tienda.precioPromedioCobrado(celular));
+        assertEquals(620000.0, tienda.precioPromedioCobrado(auriculares));
+
+        List<Item> masVendidos = tienda.productosMasVendidos();
+        assertFalse(masVendidos.isEmpty());
+        assertEquals(celular, masVendidos.get(0));
+        assertEquals(auriculares, masVendidos.get(1));
+    }
+
+	@Test
+	void testVentaGetters() {
 		Venta venta = new Venta(celular, 2, 254000, fecha);
 		assertEquals(celular, venta.getItem());
 		assertEquals(2, venta.getCantidad());
@@ -105,7 +127,34 @@ class TiendaTest {
 	}
 	
 	@Test
-	void depositoNoPuedeSacarElItem() {
-		assertThrows(IllegalArgumentException.class, () -> deposito.removerCantidadDelStock(auriculares, 10));
+	void testDepositoNoPuedeSacarElItem() {
+		assertThrows(IllegalArgumentException.class, () -> deposito.removerCantidadDelStock(auriculares, 5));
 	}
+	
+	@Test
+	void testCarritoGetters() {
+		assertEquals("Sebastian", carrito.getNombreUsuario());
+
+		assertEquals(pedido.getCliente(), carrito.getPedido().getCliente());
+	}
+	
+	@Test
+	void testCarritoAgregarYRemoverItems() {
+		carrito.agregarItem(celular, 3);
+
+		assertTrue(carrito.getItems().containsKey(celular));
+		assertEquals(3, carrito.getItems().get(celular).intValue());
+
+		carrito.removerItem(celular, 1);
+		assertEquals(2, carrito.getItems().get(celular).intValue());
+
+		carrito.removerItem(celular, 2);
+		assertTrue(carrito.getItems().isEmpty());
+	}
+	
+	@Test
+    void testPagarConPedidoVacioLanzaOperacionInvalidaException() {
+        assertThrows(OperacionInvalidaException.class, () -> carrito.pagar());
+    }
+	
 }

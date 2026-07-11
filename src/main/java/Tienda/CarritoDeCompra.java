@@ -19,7 +19,7 @@ public class CarritoDeCompra {
         this.pedido = new Pedido(tienda, usuario);
     }
 
-    public String getUsuario() {
+    public String getNombreUsuario() {
         return usuario.getNombre();
     }
 

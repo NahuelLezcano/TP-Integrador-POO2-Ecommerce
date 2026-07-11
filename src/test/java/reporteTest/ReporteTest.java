@@ -1,6 +1,8 @@
 package reporteTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,28 +24,39 @@ class ReporteTest {
 	Catalogo catalogo;
 	Deposito deposito;
 	Tienda tienda;
+	LocalDate fecha;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		celular = new Producto("AR528", "Samsung Galaxy A20", "Samsung", "Tecnología", 169, 127000, "Celular duradero");
-
-		auriculares = new Producto("BR111", "Galaxy Buds 4 Pro", "Samsung", "Tecnología", 10, 620000, "Sonido cálido");
-
-		celularNuevo = new Paquete("Pack celular nuevo", "Incluye un celular y auriculares", "Tecnología", 10,
-				new ArrayList<>(List.of(celular, auriculares)));
+		fecha = LocalDate.of(2025, 10, 5);
+		
+		celular = mock(Producto.class);
+		auriculares = mock(Producto.class);
+		celularNuevo = mock(Paquete.class);
+		catalogo = mock(Catalogo.class);
+		
+		when(celular.getNombre()).thenReturn("Samsung Galaxy A20");
+		when(celular.getPrecioFinal()).thenReturn(127000);
+		when(celular.validar()).thenReturn(true);
+		
+		when(auriculares.getNombre()).thenReturn("Galaxy Buds 4 Pro");
+		when(auriculares.getPrecioFinal()).thenReturn(620000);
+		when(auriculares.validar()).thenReturn(true);
+		
+		when(celularNuevo.getPrecioFinal()).thenReturn(672300);
+		when(celularNuevo.getItems()).thenReturn(new ArrayList<>(List.of(celular, auriculares)));
+		when(celularNuevo.validar()).thenReturn(true);
 
 		deposito = new Deposito(new HashMap<>());
 		deposito.agregarItemAlStock(celular, 5);
 		deposito.agregarItemAlStock(auriculares, 1);
 		deposito.agregarItemAlStock(celularNuevo, 1);
 
-		catalogo = new Catalogo(new ArrayList<>(List.of(celularNuevo)), deposito);
-
 		tienda = new Tienda(deposito, catalogo);
-		tienda.registrarVenta(celular, 1, LocalDate.now());
-		tienda.registrarVenta(celular, 1, LocalDate.now());
-		tienda.registrarVenta(celular, 1, LocalDate.now());
-		tienda.registrarVenta(auriculares, 1, LocalDate.now());
+		tienda.registrarVenta(celular, 1, fecha);
+		tienda.registrarVenta(celular, 1, fecha);
+		tienda.registrarVenta(celular, 1, fecha);
+		tienda.registrarVenta(auriculares, 1, fecha);
 	}
 	
 	@Test
@@ -90,7 +103,7 @@ class ReporteTest {
 		reporteHTML.generarReporte(tienda.productosMasVendidos());
 		String textoHTML = reporteHTML.devolverReporte();
 
-		assertTrue(textoHTML.contains("<!DOCTYPE html>"));
+		assertTrue(textoHTML.startsWith("<!DOCTYPE html>"));
 		assertTrue(textoHTML.contains("<table>"));
 		assertTrue(textoHTML.contains("<th>Nombre</th><th>Vendidos</th><th>Precio Promedio</th>"));
 		assertTrue(textoHTML.contains("<td>Samsung Galaxy A20</td>"));
