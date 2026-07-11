@@ -28,7 +28,6 @@ public class Enviado extends Estado {
     @Override
     public String cancelar() {
         pedido.cambiarEstado(new Cancelado(pedido));
-        //TODO reembolso (se reembolsa el costo del producto pero no del envío)
         return "El pedido fue cancelado.";
     }
 }
