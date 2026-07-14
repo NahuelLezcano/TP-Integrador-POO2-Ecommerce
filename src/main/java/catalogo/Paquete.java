@@ -68,7 +68,14 @@ public class Paquete implements Item  {
 	public String getCategoria() {
 		return categoria;
 	}
-	
+
+	@Override
+	public int getPeso() {
+		return getItems().stream()
+				.mapToInt(Item::getPeso)
+				.sum();
+	}
+
 	public boolean itemsSonValidos() {
 		return getItems().stream().allMatch(Item::validar);
 	}
