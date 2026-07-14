@@ -286,7 +286,13 @@ public class PedidoTest {
 		assertEquals(3, unPedido.getItems().get(celu));
 	}
 
+    @Test
+    void testPesoTotal() {
+        unPedido.agregarItem(celu, 10);
+        unPedido.agregarItem(tv, 8);
 
+        assertEquals(90, unPedido.pesoTotalPedido());
+    }
 
     
     
