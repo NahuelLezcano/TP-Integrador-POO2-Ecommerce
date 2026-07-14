@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.*;
 
+import envio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +31,7 @@ class TiendaTest {
     MetodoDePago metodoDePago;
     CarritoDeCompra carrito;
     Pedido pedido;
+	MetodoDeEnvio metodoEnvio;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -41,6 +43,7 @@ class TiendaTest {
 		cliente = mock(Cliente.class);
 		metodoDePago = mock(MetodoDePago.class);
 		pedido = mock(Pedido.class);
+		metodoEnvio = mock(MetodoDeEnvio.class);
 		
 		when(celular.getPrecioFinal()).thenReturn(127000);
 		when(celular.validar()).thenReturn(true);
@@ -63,7 +66,7 @@ class TiendaTest {
 		
 		tienda = new Tienda(deposito, catalogo);
 		
-		carrito = new CarritoDeCompra(tienda, metodoDePago, cliente);
+		carrito = new CarritoDeCompra(tienda, metodoDePago, cliente, metodoEnvio);
 
 		fecha = LocalDate.of(2025, 10, 5);
 

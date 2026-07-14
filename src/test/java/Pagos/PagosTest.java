@@ -4,6 +4,7 @@ import Tienda.*;
 import catalogo.Item;
 import cliente.Cliente;
 
+import envio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +32,7 @@ public class PagosTest {
     IBilleteraVirtual apiBV;
     ITransferenciaBancaria apiTrans;
     ITarjetaDeCredito apiTC;
+    MetodoDeEnvio metodoDeEnvio;
     
     @BeforeEach
     void setUp() {
@@ -42,7 +44,8 @@ public class PagosTest {
 		apiBV = mock(IBilleteraVirtual.class);
 		apiTrans = mock(ITransferenciaBancaria.class);
 		apiTC = mock(ITarjetaDeCredito.class);
-        
+        metodoDeEnvio = mock(MetodoDeEnvio.class);
+
         tarjetaCredito = new TarjetaDeCredito();
         tarjetaCredito2 = new TarjetaDeCredito(01234567, 555, "07/26");
         transferencia = new TransferenciaBancaria();
@@ -54,9 +57,9 @@ public class PagosTest {
         when(clienteTransferencia.getNombre()).thenReturn("usuario-Transferencia");
         when(clienteBilleteraVirtual.getNombre()).thenReturn("usuario-BilleteraVirtual");
 
-        compraConTarjeta = new CarritoDeCompra(unaTienda, tarjetaCredito, clienteCredito);
-        compraConTransferencia = new CarritoDeCompra(unaTienda, transferencia, clienteTransferencia);
-        compraConBilletera = new CarritoDeCompra(unaTienda, billeteraVirtual, clienteBilleteraVirtual);
+        compraConTarjeta = new CarritoDeCompra(unaTienda, tarjetaCredito, clienteCredito, metodoDeEnvio);
+        compraConTransferencia = new CarritoDeCompra(unaTienda, transferencia, clienteTransferencia, metodoDeEnvio);
+        compraConBilletera = new CarritoDeCompra(unaTienda, billeteraVirtual, clienteBilleteraVirtual, metodoDeEnvio);
     }
 
     @Test

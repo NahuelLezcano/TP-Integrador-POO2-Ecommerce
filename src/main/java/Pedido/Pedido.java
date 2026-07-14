@@ -3,14 +3,14 @@ package Pedido;
 import Tienda.*;
 import catalogo.Item;
 import cliente.Cliente;
-
+import envio.*;
+import notificacion.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import notificacion.*;
 
 public class Pedido {
 
@@ -19,6 +19,7 @@ public class Pedido {
     private Estado estadoDelPedido = new Borrador(this);
     private List<Observador> observadores = new ArrayList<>();
     private Cliente cliente;
+    private Envio envio;
 
     public Pedido(Tienda tienda, Cliente cliente) {
         this.tienda = tienda;
@@ -50,6 +51,14 @@ public class Pedido {
 
 	public Tienda getTienda() {
         return tienda;
+    }
+
+    public void setEnvio(Envio envio) {
+        this.envio = envio;
+    }
+
+    public Envio getEnvio() {
+        return envio;
     }
 
     public Map<Item, Integer> getItems() {
@@ -112,6 +121,14 @@ public class Pedido {
 			return 0;
 		}
 	}
+
+    public int pesoTotalPedido() {
+        if (hayItems()) {
+            return items.entrySet().stream().mapToInt(e -> e.getKey().getPeso() * e.getValue()).sum();
+        } else {
+            return 0;
+        }
+    }
 
 	public boolean hayItems() {
 		return !items.isEmpty();

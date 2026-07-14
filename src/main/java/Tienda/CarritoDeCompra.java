@@ -4,6 +4,7 @@ import Pagos.*;
 import Pedido.*;
 import catalogo.Item;
 import cliente.Cliente;
+import envio.*;
 
 import java.util.Map;
 
@@ -13,10 +14,12 @@ public class CarritoDeCompra {
     private Pedido pedido;
     private Cliente usuario;
 
-    public CarritoDeCompra(Tienda tienda, MetodoDePago metodoDePago, Cliente usuario) {
+    public CarritoDeCompra(Tienda tienda, MetodoDePago metodoDePago, Cliente usuario, MetodoDeEnvio metodo) {
         this.metodoDePago = metodoDePago;
         this.usuario = usuario;
-        this.pedido = new Pedido(tienda, usuario);
+        pedido = new Pedido(tienda, usuario);
+        Envio envio = new Envio(metodo, pedido);
+        pedido.setEnvio(envio);
     }
 
     public String getNombreUsuario() {
