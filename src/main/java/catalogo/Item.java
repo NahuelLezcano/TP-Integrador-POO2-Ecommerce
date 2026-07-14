@@ -13,4 +13,6 @@ public interface Item {
 	public int getPrecioBase();
 
 	String getCategoria();
+
+	int getPeso();
 }
