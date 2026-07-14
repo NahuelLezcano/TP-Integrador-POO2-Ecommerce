@@ -221,4 +221,9 @@ class CatalogoTest {
 		assertFalse(sinDescripcion.validarObligatorios());
 	}
 
+	@Test
+	void pesoDeUnPaquete() {
+		assertEquals(179, celularNuevo.getPeso());
+	}
+
 }
