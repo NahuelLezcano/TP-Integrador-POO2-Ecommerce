@@ -22,7 +22,7 @@ import cliente.Cliente;
 import factura.Factura;
 import notificacion.*;
 
-class norificaionTest {
+class notificacionTest {
 
 	Cliente cliente;
 	Item celular;
