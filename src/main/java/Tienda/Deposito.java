@@ -1,6 +1,7 @@
 package Tienda;
 
 import catalogo.Item;
+import envio.Direccion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,11 +9,13 @@ import java.util.Map;
 public class Deposito {
 
 	private Map<Item, Integer> stock = new HashMap<>();
+	private Direccion direccion;
 
 	public Deposito() {}
 
-	public Deposito(Map<Item, Integer> stock) {
+	public Deposito(Map<Item, Integer> stock, Direccion direccion) {
 		this.stock = stock;
+		this.direccion = direccion;
 	}
 
 	public void agregarItemAlStock(Item item, Integer cantidad) {
@@ -38,6 +41,10 @@ public class Deposito {
 
 	public int cantidadEnStock(Item item) {
 		return stock.getOrDefault(item, 0);
+	}
+
+	public Direccion getDireccion() {
+		return direccion;
 	}
 
 }
