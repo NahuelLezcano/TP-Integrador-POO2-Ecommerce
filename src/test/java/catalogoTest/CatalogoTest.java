@@ -1,6 +1,7 @@
 package catalogoTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import java.util.*;
 
@@ -9,10 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import Tienda.Deposito;
 import catalogo.*;
+import envio.Direccion;
 
 class CatalogoTest {
 
 	Catalogo catalogo;
+	Direccion direccion;
 	Deposito deposito;
 	Producto celular;
 	Producto auriculares;
@@ -40,8 +43,10 @@ class CatalogoTest {
 		celularExpandido = new Paquete("Pack celular nuevo con más memoria",
 				"Incluye un celular con memoria msd, auriculares y cargador", "Tecnología", 20,
 				new ArrayList<>(List.of(celularNuevo, memoria)));
+		
+		direccion = mock(Direccion.class);
 
-		deposito = new Deposito(new HashMap<>());
+		deposito = new Deposito(new HashMap<>(), direccion);
 		deposito.agregarItemAlStock(celular, 1);
 		deposito.agregarItemAlStock(auriculares, 1);
 		deposito.agregarItemAlStock(memoria, 1);
