@@ -24,6 +24,7 @@ class TiendaTest {
 	Producto auriculares;
 	Paquete celularNuevo;
 	Catalogo catalogo;
+	Direccion direccion;
 	Deposito deposito;
 	Tienda tienda;
 	LocalDate fecha;
@@ -40,6 +41,7 @@ class TiendaTest {
 		auriculares = mock(Producto.class);
 		celularNuevo = mock(Paquete.class);
 		catalogo = mock(Catalogo.class);
+		direccion = mock(Direccion.class);
 		cliente = mock(Cliente.class);
 		metodoDePago = mock(MetodoDePago.class);
 		pedido = mock(Pedido.class);
@@ -59,7 +61,7 @@ class TiendaTest {
 		
 		when(pedido.getCliente()).thenReturn(cliente);
 		
-		deposito = new Deposito(new HashMap<>());
+		deposito = new Deposito(new HashMap<>(), direccion);
 		deposito.agregarItemAlStock(celularNuevo, 1);
 		deposito.agregarItemAlStock(celular, 5);
 		deposito.agregarItemAlStock(auriculares, 3);
@@ -75,7 +77,7 @@ class TiendaTest {
 	@Test
 	void testDepositoYTiendaGettersYSetters() {
 
-		Deposito depositoNuevo = new Deposito(new HashMap<>());
+		Deposito depositoNuevo = new Deposito(new HashMap<>(), direccion);
 		depositoNuevo.agregarItemAlStock(celularNuevo, 1);
 		Catalogo catalogoNuevo = new Catalogo(new ArrayList<>(List.of(auriculares)), deposito);
 
