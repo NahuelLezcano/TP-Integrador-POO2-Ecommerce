@@ -12,14 +12,6 @@ public class Envio {
         this.pedido = pedido;
     }
 
-    public void setMetodo(MetodoDeEnvio metodo) {
-        this.metodo = metodo;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
     public double costoEnvio() {
         return metodo.costoDeEnvio(pedido);
     }
