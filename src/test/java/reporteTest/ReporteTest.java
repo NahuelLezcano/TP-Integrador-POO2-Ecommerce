@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import Tienda.*;
 import catalogo.*;
+import envio.Direccion;
 import reporte.*;
 
 class ReporteTest {
@@ -22,6 +23,7 @@ class ReporteTest {
 	Producto auriculares;
 	Paquete celularNuevo;
 	Catalogo catalogo;
+	Direccion direccion;
 	Deposito deposito;
 	Tienda tienda;
 	LocalDate fecha;
@@ -34,6 +36,7 @@ class ReporteTest {
 		auriculares = mock(Producto.class);
 		celularNuevo = mock(Paquete.class);
 		catalogo = mock(Catalogo.class);
+		direccion = mock(Direccion.class);
 		
 		when(celular.getNombre()).thenReturn("Samsung Galaxy A20");
 		when(celular.getPrecioFinal()).thenReturn(127000);
@@ -47,7 +50,7 @@ class ReporteTest {
 		when(celularNuevo.getItems()).thenReturn(new ArrayList<>(List.of(celular, auriculares)));
 		when(celularNuevo.validar()).thenReturn(true);
 
-		deposito = new Deposito(new HashMap<>());
+		deposito = new Deposito(new HashMap<>(), direccion);
 		deposito.agregarItemAlStock(celular, 5);
 		deposito.agregarItemAlStock(auriculares, 1);
 		deposito.agregarItemAlStock(celularNuevo, 1);
