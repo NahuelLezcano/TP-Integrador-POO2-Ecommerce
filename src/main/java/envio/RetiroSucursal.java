@@ -20,4 +20,8 @@ public class RetiroSucursal implements MetodoDeEnvio {
     public int estimacionDeDias(Pedido pedido) { //Consultar stock. Falta completar.
         return 0;
     }
+
+	public Tienda getTienda() {
+		return tienda;
+	}
 }
