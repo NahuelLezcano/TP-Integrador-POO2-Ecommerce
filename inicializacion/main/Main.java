@@ -25,7 +25,8 @@ public class Main {
         Item packOficina = new Paquete("Pack oficina", "Paquete oficina", "Oficina", 1, List.of(laptop, escritorio, silla));
 
         // Se crean el Deposito, el Catalogo y la Tienda.
-        Deposito unDeposito = new Deposito(new HashMap<>(Map.of(laptop, 5, mouse, 20, escritorio, 4, silla, 8, teclado, 20, packOficina, 1)));
+        Direccion direccion = new Direccion(1,1);
+        Deposito unDeposito = new Deposito(new HashMap<>(Map.of(laptop, 5, mouse, 20, escritorio, 4, silla, 8, teclado, 20, packOficina, 1)), direccion);
         Catalogo unCatalogo = new Catalogo(new ArrayList<>(List.of(laptop, mouse,escritorio, silla, teclado, packOficina)), unDeposito);
         Tienda tienda = new Tienda(unDeposito, unCatalogo);
 
@@ -47,7 +48,8 @@ public class Main {
 
         // Prueba
         System.out.println("El estado del pedido es: " + pedido.estadoActual().getNombreDelEstado());
-        System.out.println(tienda.getDeposito().cantidadEnStock(laptop));
+        System.out.println("El stock de laptops después de la compra es: " + tienda.getDeposito().cantidadEnStock(laptop));
+        System.out.println("El costo de envío es: " + envio.costoEnvio());
 
     }
 }
