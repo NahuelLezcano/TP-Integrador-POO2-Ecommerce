@@ -1,10 +1,7 @@
 package envio;
 
-import java.util.Map;
-
 import Pedido.Pedido;
 import Tienda.Tienda;
-import catalogo.Item;
 
 public class RetiroSucursal implements MetodoDeEnvio {
 
@@ -40,14 +37,7 @@ public class RetiroSucursal implements MetodoDeEnvio {
 	}
 
 	private boolean hayTodosLosItemsDisponibles(Pedido pedido) {
-		for (Map.Entry<Item, Integer> items : pedido.getItems().entrySet()) {
-			Item item = items.getKey();
-			int cantidad = items.getValue();
-
-			if (!tienda.getDeposito().validar(item, cantidad)) {
-				return false;
-			}
-		}
-		return true;
+		return pedido.getItems().entrySet().stream()
+				.allMatch(e -> tienda.getDeposito().validar(e.getKey(), e.getValue()));
 	}
 }

@@ -3,8 +3,9 @@ package Pagos;
 import Tienda.*;
 import catalogo.Item;
 import cliente.Cliente;
+import envio.MetodoDeEnvio;
+import envioTest.*;
 
-import envio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

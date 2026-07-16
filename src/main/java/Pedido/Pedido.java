@@ -3,7 +3,7 @@ package Pedido;
 import Tienda.*;
 import catalogo.Item;
 import cliente.Cliente;
-import envio.*;
+import envio.Envio;
 import notificacion.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,10 +136,6 @@ public class Pedido {
 
 	public Cliente getCliente() {
 		return cliente;
-	}
-
-	public int getCantidadDeItem(Item item) {
-		return items.getOrDefault(item, 0);
 	}
 	
 }

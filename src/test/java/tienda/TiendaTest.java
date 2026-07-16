@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.*;
 
-import envio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +15,9 @@ import Pedido.OperacionInvalidaException;
 import Pedido.Pedido;
 import catalogo.*;
 import cliente.Cliente;
+import envio.Direccion;
+import envio.MetodoDeEnvio;
+import envioTest.*;
 import Tienda.*;
 
 class TiendaTest {
