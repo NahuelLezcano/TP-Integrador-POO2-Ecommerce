@@ -13,7 +13,7 @@ public class EnvioExpress implements MetodoDeEnvio {
     @Override
     public double costoDeEnvio(Pedido pedido) {
         int valorTotalDelPedido = pedido.montoTotal();
-        double porcentaje = 0.10; // Elegí 10%
+        double porcentaje = 0.10; // 10%
         return (valorTotalDelPedido * porcentaje) + cargoBase;
     }
 

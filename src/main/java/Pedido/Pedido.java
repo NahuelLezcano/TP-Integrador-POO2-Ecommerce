@@ -137,5 +137,9 @@ public class Pedido {
 	public Cliente getCliente() {
 		return cliente;
 	}
+
+	public int getCantidadDeItem(Item item) {
+		return items.getOrDefault(item, 0);
+	}
 	
 }
